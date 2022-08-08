@@ -24,16 +24,18 @@ const storageContestFiles = multer.diskStorage({
   },
 });
 
-const uploadAvatars = multer({ storage: storageContestFiles }).single('file');
-const uploadContestFiles = multer({ storage: storageContestFiles }).array(
-  'files', 3);
-const updateContestFile = multer({ storage: storageContestFiles }).single(
-  'file');
-const uploadLogoFiles = multer({ storage: storageContestFiles }).single(
-  'offerData');
+const multerWithStorage = multer({ storage: storageContestFiles });
 
-module.exports.uploadAvatar = (req, res, next) => {
-  uploadAvatars(req, res, (err) => {
+const uploadAvatar = multerWithStorage.single('file');
+const uploadContestFiles = multerWithStorage.array('files', 3);
+const updateContestFile = multerWithStorage.single('file');
+const uploadLogoFiles = multerWithStorage.single('offerData');    
+
+
+module.exports.uploadAvatar = uploadAvatar;
+
+/*(req, res, next) => {
+  uploadAvatar(req, res, (err) => {
     if (err instanceof multer.MulterError) {
       next(new ServerError());
     } else if (err) {
@@ -41,38 +43,11 @@ module.exports.uploadAvatar = (req, res, next) => {
     }
     return next();
   });
-};
+};*/
 
-module.exports.uploadContestFiles = (req, res, next) => {
-  uploadContestFiles(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
-      next(new ServerError());
-    } else if (err) {
-      next(new ServerError());
-    }
-    return next();
-  });
-};
+module.exports.uploadContestFiles = uploadContestFiles; 
 
-module.exports.updateContestFile = (req, res, next) => {
-  updateContestFile(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
-      next(new ServerError());
-    } else if (err) {
-      next(new ServerError());
-    }
-    return next();
-  });
-};
+module.exports.updateContestFile = updateContestFile;
 
-module.exports.uploadLogoFiles = (req, res, next) => {
-  uploadLogoFiles(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
-      next(new ServerError());
-    } else if (err) {
-      next(new ServerError());
-    }
-    return next();
-  });
-};
+module.exports.uploadLogoFiles = uploadLogoFiles;
 
