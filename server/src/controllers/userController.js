@@ -9,6 +9,7 @@ const userQueries = require('./queries/userQueries');
 const bankQueries = require('./queries/bankQueries');
 const ratingQueries = require('./queries/ratingQueries');
 const { CONTEST_STATUS_PENDING, CONTEST_STATUS_ACTIVE } = require('../constants');
+const { prepareUser } = require('../utils/user.utils');
 
 module.exports.login = async (req, res, next) => {
   try {
@@ -26,15 +27,14 @@ module.exports.login = async (req, res, next) => {
       rating: foundUser.rating,
     }, CONSTANTS.JWT_SECRET, { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME });
     await userQueries.updateUser({ accessToken }, foundUser.id);
-    res.send({ token: accessToken });
+    res.send({ user: prepareUser(foundUser), token: accessToken });
   } catch (err) {
     next(err);
   }
 };
 module.exports.registration = async (req, res, next) => {
   try {
-    const newUser = await userQueries.userCreation(
-      Object.assign(req.body, { password: req.hashPass }));
+    const newUser = await userQueries.userCreation(req.body);
     const accessToken = jwt.sign({
       firstName: newUser.firstName,
       userId: newUser.id,
@@ -47,7 +47,7 @@ module.exports.registration = async (req, res, next) => {
       rating: newUser.rating,
     }, CONSTANTS.JWT_SECRET, { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME });
     await userQueries.updateUser({ accessToken }, newUser.id);
-    res.send({ token: accessToken });
+    res.send({ user: prepareUser(newUser), token: accessToken });
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       next(new NotUniqueEmail());
@@ -147,6 +147,7 @@ module.exports.updateUser = async (req, res, next) => {
     const updatedUser = await userQueries.updateUser(req.body,
       req.tokenData.userId);
     res.send({
+      id: updatedUser.id,
       firstName: updatedUser.firstName,
       lastName: updatedUser.lastName,
       displayName: updatedUser.displayName,
@@ -154,7 +155,6 @@ module.exports.updateUser = async (req, res, next) => {
       email: updatedUser.email,
       balance: updatedUser.balance,
       role: updatedUser.role,
-      id: updatedUser.id,
     });
   } catch (err) {
     next(err);
