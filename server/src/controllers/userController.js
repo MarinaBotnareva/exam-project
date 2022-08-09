@@ -1,3 +1,4 @@
+const createHttpError = require('http-errors');
 const CONSTANTS = require('../constants');
 const bd = require('../models');
 const NotUniqueEmail = require('../errors/NotUniqueEmail');
@@ -9,7 +10,7 @@ const bankQueries = require('./queries/bankQueries');
 const ratingQueries = require('./queries/ratingQueries');
 const { CONTEST_STATUS_PENDING, CONTEST_STATUS_ACTIVE } = require('../constants');
 const { prepareUser } = require('../utils/user.utils');
-const {createAccessToken} = require('../services/jwtService')
+const { createSession, refreshSession} = require('../services/jwtService');
 
 module.exports.login = async (req, res, next) => {
   try {
@@ -17,10 +18,9 @@ module.exports.login = async (req, res, next) => {
     
     await userQueries.passwordCompare(req.body.password, foundUser.password);
     
-    const accessToken = createAccessToken(foundUser);
-    await userQueries.updateUser({ accessToken }, foundUser.id);
+    const tokenPair = await createSession(foundUser);
     
-    res.send({ user: prepareUser(foundUser), token: accessToken });
+    res.send({ user: prepareUser(foundUser), tokenPair });
   } catch (err) {
     next(err);
   }
@@ -28,9 +28,10 @@ module.exports.login = async (req, res, next) => {
 module.exports.registration = async (req, res, next) => {
   try {
     const newUser = await userQueries.userCreation(req.body);
-    const accessToken = createAccessToken(newUser);
-    await userQueries.updateUser({ accessToken }, newUser.id);
-    res.send({ user: prepareUser(newUser), token: accessToken });
+
+    const tokenPair = await createSession(newUser);
+    
+    res.send({ user: prepareUser(newUser), tokenPair });
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       next(new NotUniqueEmail());
@@ -39,6 +40,19 @@ module.exports.registration = async (req, res, next) => {
     }
   }
 };
+
+module.exports.refreshSession = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.body;
+
+    const response = await refreshSession(refreshToken, req.tokenData); 
+    
+    res.status(200).send(response);
+
+  } catch (error) {
+    next(error);
+  }
+} 
 
 module.exports.changeMark = async (req, res, next) => {
   let sum = 0;

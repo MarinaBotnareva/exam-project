@@ -6,6 +6,7 @@ export function* loginSaga(action) {
   try {
     const response = yield restController.loginRequest(action.data);
     action.history.replace('/');
+
     const userData = response.data.user;
     yield put({ type: ACTION.AUTH_ACTION_SUCCESS });
     yield put({ type: ACTION.GET_USER_SUCCESS, data: userData });
@@ -18,6 +19,19 @@ export function* registerSaga(action) {
   try {
     const response = yield restController.registerRequest(action.data);
     action.history.replace('/');
+    
+    const userData = response.data.user;
+    yield put({ type: ACTION.AUTH_ACTION_SUCCESS });
+    yield put({ type: ACTION.GET_USER_SUCCESS, data: userData });
+  } catch (e) {
+    yield put({ type: ACTION.AUTH_ACTION_ERROR, error: e.response });
+  }
+}
+
+export function* refreshSaga(action) {
+  try {
+    const response = yield restController.refreshRequest(action.data);
+
     const userData = response.data.user;
     yield put({ type: ACTION.AUTH_ACTION_SUCCESS });
     yield put({ type: ACTION.GET_USER_SUCCESS, data: userData });
