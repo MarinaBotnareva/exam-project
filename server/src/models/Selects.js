@@ -1,7 +1,12 @@
-
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  const SelectBox = sequelize.define('Selects', {
+  class Select extends Model {
+    static associate() {}
+  }
+
+  Select.init(
+    {
     type: {
       allowNull: false,
       primaryKey: true,
@@ -14,8 +19,11 @@ module.exports = (sequelize, DataTypes) => {
     },
   },
   {
-    timestamps: false,
+    sequelize,
+      timestamps: false,
+      modelName: 'Select',
+      tableName: 'Selects',
   });
 
-  return SelectBox;
+  return Select;
 };

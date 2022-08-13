@@ -3,7 +3,7 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class RefreshToken extends Model {
     static associate(models) {
-      RefreshToken.belongsTo(models.Users, { foreignKey: 'userId' });
+      RefreshToken.belongsTo(models.User, { foreignKey: 'userId' });
     }
   }
   RefreshToken.init(
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'RefreshTokens',
-      tableName: 'RefreshTokens',
+      tableName: 'RefreshToken',
     },
   );
   return RefreshToken;
