@@ -31,11 +31,7 @@ module.exports.registration = async (req, res, next) => {
     
     res.send({ user: prepareUser(newUser), tokenPair });
   } catch (err) {
-    if (err.name === 'SequelizeUniqueConstraintError') {
-      next(new NotUniqueEmail());
-    } else {
       next(err);
-    }
   }
 };
 
