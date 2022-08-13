@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'RefreshTokens',
-      tableName: 'RefreshToken',
+      modelName: 'RefreshToken',
+      tableName: 'RefreshTokens',
     },
   );
   return RefreshToken;

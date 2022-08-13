@@ -13,32 +13,33 @@ module.exports = (sequelize, DataTypes) => {
 
   Rating.init(
     {
-    offerId: {
-      allowNull: false,
-      primaryKey: true,
-      type: DataTypes.INTEGER,
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-    },
-    mark: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-      defaultValue: 0,
-      validate: {
-        min: 0,
-        max: 5,
+      offerId: {
+        allowNull: false,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+      },
+      mark: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 0,
+        validate: {
+          min: 0,
+          max: 5,
+        },
       },
     },
-  },
-  {
-    sequelize,
+    {
+      sequelize,
       timestamps: false,
       modelName: 'Rating',
       tableName: 'Ratings',
-  });
+    },
+  );
 
   return Rating;
 };
