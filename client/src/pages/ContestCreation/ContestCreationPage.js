@@ -16,7 +16,7 @@ const ContestCreationPage = (props) => {
   const handleSubmit = (values) => {
     props.saveContest({ type: props.contestType, info: values });
     const route = props.bundleStore.bundle[props.contestType] === 'payment' ? '/payment' : `${props.bundleStore.bundle[props.contestType]}Contest`;
-    props.history.push(route);
+    props[0].history.push(route);
   };
 
   const submitForm = () => {
@@ -26,6 +26,7 @@ const ContestCreationPage = (props) => {
   };
 
   !props.bundleStore.bundle && props.history.replace('/startContest');
+
 
   return (
     <div>
