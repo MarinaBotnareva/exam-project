@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useCallback} from 'react';
 import CountDown from '../../components/CountDown/CountDown';
 import Close from '../../components/FirstSection/close.svg'
+import Header from '../../components/Header/Header';
+import "./Event.css"
 
-function ToDoList (){
+function ToDoList (props){
+  console.log(props)
   const [todoValue, setTodoValue] = useState('')
   const [date, setDate] = useState("");
   const [tasksArr, setTasksArr] = useState(() => { return JSON.parse(localStorage.getItem('tasks')) || []})
@@ -13,6 +16,7 @@ function ToDoList (){
         id: Math.random().toString(36).substring(2, 9),
         text: userInput,
         date: date,
+        starttime: new Date().toLocaleString()
       }
       setTasksArr([newItem, ...tasksArr]);
     }
@@ -48,31 +52,31 @@ function ToDoList (){
   const DateChange = ({target: {value}}) => {
     setDate(value);
   }
-
-  
-
   
   return (
+    <>
+    <Header/>
     <div className='todo'>
       <h2>Add your events</h2>
       <div>
       <form onSubmit={onSubmit} >
         <input className='input' type='text' value={todoValue} onChange={onInputChange} />
         <input type='datetime-local' value={date} onChange={DateChange}/>
+        <input type=''/>
         <button className='button1' type='submit'>Add</button>
       </form>
       <ul>{tasksArr.map((task) => {
-        return <li className='task'
+        return <li className='tasksItem'
           key={task.id}>
-            <p>{task.text}</p>
-            <CountDown data={task.date}/>
+            <CountDown data={task.date} text={task.text} starttime={task.starttime} />
         <button className='button' onClick={() => removeTask(task.id)} >
-          <img src={Close}/>
-        </button>
+          <img className='taskDel' src={Close}/>
+        </button> 
         </li>
       } )}</ul>
       </div>
     </div>
+    </>
   )
 }
 

@@ -53,6 +53,7 @@ class Header extends React.Component {
               </ul>
             </div>
             <img src={`${CONSTANTS.STATIC_IMAGES_PATH}email.png`} className={styles.emailIcon} alt="email" />
+            <Link to="/events" style={{ textDecoration: 'none' }}><img src={`${CONSTANTS.STATIC_IMAGES_PATH}calendar-svgrepo-com.svg`} className={styles.emailIcon} alt="calendar" /></Link>
           </>
         );
       }

@@ -13,6 +13,7 @@ import UserProfile from './pages/UserProfile/UserProfile';
 import ContestPage from './pages/ContestPage/ContestPage';
 import ContestCreationPage from './pages/ContestCreation/ContestCreationPage';
 import HowItWorks from './pages/HowItWorks/HowItWorks';
+import Events from './pages/Events/Events'
 
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import NotAuthorizedRoute from './components/NotAuthorizedRoute/NotAuthorizedRoute';
@@ -54,6 +55,7 @@ function App () {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/how-it-works" component={HowItWorks} />
+          <Route exact path="/events" component={Events} />
           
         <NotAuthorizedRoute exact path="/login" component={LoginPage} />
         <NotAuthorizedRoute
