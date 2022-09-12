@@ -1,0 +1,25 @@
+.task{
+  display: flex;
+  flex-direction: row;
+  background-color: rgb(235, 235, 235);
+  border-radius: 5px;
+  justify-content: space-between;
+  position: relative;
+  width: 95%;
+  height: 40px;
+  overflow: scroll;
+}
+
+
+.bar{
+  position: absolute;
+  z-index: 1;
+  border-radius: 5px;
+  color: #b9dba4;
+}
+
+.event {
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+}

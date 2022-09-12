@@ -4,8 +4,10 @@ import SelectInput from '../SelectInput/SelectInput';
 import FormInput from '../FormInput/FormInput';
 import styles from '../ContestForm/ContestForm.module.sass';
 import Spinner from '../Spinner/Spinner';
+import ButtonGroup from '../ButtonGroup/ButtonGroup';
 
 const OptionalSelects = (props) => {
+
   if (props.isFetching) {
     return <Spinner />;
   }
@@ -13,6 +15,19 @@ const OptionalSelects = (props) => {
     case CONSTANTS.NAME_CONTEST: {
       return (
         <>
+        <div className={styles.inputContainer}>
+            <span className={styles.inputHeader}>
+            Do you want a matching domain (.com URL) with your name?
+            </span>
+            <ButtonGroup
+              name="domain"
+              classes={{
+                container: styles.componentInputContainer,
+                input: styles.input,
+                warning: styles.warning,
+              }}
+            />
+          </div>
           <SelectInput
             name="typeOfName"
             header="type of company"

@@ -1,0 +1,17 @@
+.custom-radio {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.getactive {
+  border-color: rgba(44,185,183,.5)!important;
+  box-shadow: 0 0 5px rgba(44,185,183,.125)!important;
+  border-width: 3px;
+}
+
+.group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

@@ -16,6 +16,7 @@ import OptionalSelects from '../OptionalSelects/OptionalSelects';
 
 const variableOptions = {
   [CONSTANTS.NAME_CONTEST]: {
+    domain: '',
     styleName: '',
     typeOfName: '',
   },

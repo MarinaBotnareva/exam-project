@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 
 import moment from "moment";
 
-function CountDown({data}) {
+import './CountDown.css'
+
+function CountDown({data, text, starttime}) {
   const [duration, setDuration] = useState("");
+  const [percent, setPercent] = useState('')
+  const [barColor, setbarColor] = useState('')
   const [now, setNow] = useState("");
   const [days, setDays] = useState("");
   const [hours, setHours] = useState("");
@@ -31,18 +35,46 @@ function CountDown({data}) {
 
   useEffect(() => {
     const start = moment(now);
+    const startpoint = moment(starttime);
     const end = moment(new Date(data).toLocaleString());
     const diff = end.diff(start, "seconds");
+    const startdiff = end.diff(startpoint, "seconds");
+    const bar = startdiff - duration;
+    const percent = bar/startdiff*100; 
+    if(percent>100){
+      setPercent(100);
+    }else {
+      setPercent(percent);
+    }
     setDuration(diff);
-    duration > 0 && countdownTime(duration);
+    duration >= 0 && countdownTime(duration);
+    if(percent > 70) {
+      setbarColor('#ffe9e9')
+    }else{
+      setbarColor('#b9dba4')
+    }
   }, [now]);
+
   
+    
+  
+
+  const barStyle = {
+    "width": percent + "%",
+    "height" : "40px",
+    "background": barColor,
+    "transition": "width 1s"
+  }
+
   return (
-    <div>
-        <p>
-        {days}d : {hours}h : {minutes}m : {seconds}s
-        </p>
+    <>
+    <div className="task">
+    <div className="bar" style={barStyle}></div>  
+    <p className="event">{text}</p>
+    <p className="event"> {days}d : {hours}h : {minutes}m : {seconds}s </p>
+    
     </div>
+    </>
   );
 }
 
