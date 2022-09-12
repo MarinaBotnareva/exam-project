@@ -1,0 +1,15 @@
+use('shm-chat');
+
+db.getCollection('messages')  
+  .aggregate(
+  [
+    {
+      $match: {
+        body: {$regex:"паровоз"}
+        }
+    },
+    {
+      $count: "match_count"
+    }
+  ]
+);
