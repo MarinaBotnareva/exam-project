@@ -4,8 +4,7 @@ import Close from '../../components/FirstSection/close.svg'
 import Header from '../../components/Header/Header';
 import "./Event.css"
 
-function ToDoList (props){
-  console.log(props)
+const ToDoList = (props) => {
   const [todoValue, setTodoValue] = useState('')
   const [date, setDate] = useState("");
   const [tasksArr, setTasksArr] = useState(() => { return JSON.parse(localStorage.getItem('tasks')) || []})

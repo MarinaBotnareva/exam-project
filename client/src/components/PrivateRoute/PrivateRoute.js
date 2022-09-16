@@ -10,7 +10,7 @@ const PrivateRoute = ({ ...rest }) => {
     return <Spinner />;
   }
 
-  if (userStore.data === false) {
+  if (!userStore.data) {
     return <Redirect to="/" />;
   }
 

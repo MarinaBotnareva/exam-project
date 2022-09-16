@@ -55,7 +55,6 @@ function App () {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/how-it-works" component={HowItWorks} />
-          <Route exact path="/events" component={Events} />
           
         <NotAuthorizedRoute exact path="/login" component={LoginPage} />
         <NotAuthorizedRoute
@@ -102,6 +101,7 @@ function App () {
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/contest/:id" component={ContestPage} />
         <PrivateRoute exact path="/account" component={UserProfile} />
+        <PrivateRoute exact path="/events" component={Events} />
           <Route component={NotFound} />
         </Switch>
         <ChatContainer />
