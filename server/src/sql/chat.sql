@@ -27,7 +27,6 @@ CREATE TABLE conversations_to_users (
   UNIQUE(partiсipant, "conversationId")
 );
 
-DROP TABLE conversations_to_catalogs
 CREATE TABLE conversations_to_catalogs (
   "catalogId" INTEGER NOT NULL REFERENCES catalogs(id),
   "chat" INTEGER NOT NULL REFERENCES conversations(id),

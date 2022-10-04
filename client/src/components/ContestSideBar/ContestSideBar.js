@@ -6,7 +6,6 @@ import CONSTANTS from '../../constants';
 import styles from './ContestSideBar.module.sass';
 
 const ContestSideBar = (props) => {
-  console.log(props.contestData);
   const getTimeStr = () => getContestTimeDiff(props.contestData.createdAt);
 
   const renderContestInfo = () => {
