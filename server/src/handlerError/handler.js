@@ -1,6 +1,6 @@
 const { MulterError } = require('multer');
 const { BaseError, UniqueConstraintError, ValidationError } = require('sequelize');
-
+const { logError } = require('../Log/logError');
 
 function multerErrorHandler(err) {
   if (err instanceof MulterError) {
@@ -37,14 +37,17 @@ function sequelizeErrorHandler(err) {
 
 module.exports = (err, req, res, next) => {
   console.log(err);
-
+  
   multerErrorHandler(err);
-
+  
   sequelizeErrorHandler(err);
+ 
   
   if (!err.message || (!err.code && !err.status)) {
     res.status(500).send('Server Error');
   } else {
     res.status(err.code || err.status).send(err.message);
   }
+  
+  logError(err);
 };
