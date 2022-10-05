@@ -1,20 +1,28 @@
 import React, { useState, useEffect, useCallback} from 'react';
+import { useSelector } from 'react-redux';
 import CountDown from '../../components/CountDown/CountDown';
 import Close from '../../components/FirstSection/close.svg'
 import Header from '../../components/Header/Header';
+import moment from "moment";
+
 import "./Event.css"
 
 const ToDoList = (props) => {
+  const userStore = useSelector((state) => state.userStore.data);
   const [todoValue, setTodoValue] = useState('')
   const [date, setDate] = useState("");
-  const [tasksArr, setTasksArr] = useState(() => { return JSON.parse(localStorage.getItem('tasks')) || []})
+  const [warning, setWarning] = useState("");
+  const [tasksArr, setTasksArr] = useState(() => { return JSON.parse(localStorage.getItem('tasks'+userStore.id)) || []});
 
-  const addTask = (userInput, date) => {
-    if(userInput, date) {
+  const addTask = (userInput, date, warning) => {
+    if(userInput, date, warning) {
+      const warnDate = moment(new Date(date).toLocaleString()).subtract(warning,'d').format('YYYY-MM-DD HH:mm');
+
       const newItem = {
         id: Math.random().toString(36).substring(2, 9),
         text: userInput,
         date: date,
+        warning: warnDate,
         starttime: new Date().toLocaleString()
       }
       setTasksArr([newItem, ...tasksArr]);
@@ -23,7 +31,7 @@ const ToDoList = (props) => {
 
   const saveToLocalStorage = useCallback(() => {
     const sortedTasks = tasksArr.sort((a, b) => new Date(...a.date.split('/').reverse()) - new Date(...b.date.split('/').reverse())); 
-    localStorage.setItem('tasks', JSON.stringify(sortedTasks));
+    localStorage.setItem('tasks'+userStore.id, JSON.stringify(sortedTasks));
   }, [tasksArr]);
 
   useEffect(() => {
@@ -33,8 +41,10 @@ const ToDoList = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addTask(todoValue, date);
+    addTask(todoValue, date, warning);
     setTodoValue('');
+    setDate('');
+    setWarning('');
   }
 
   const removeTask = (id) => {
@@ -51,23 +61,38 @@ const ToDoList = (props) => {
   const DateChange = ({target: {value}}) => {
     setDate(value);
   }
+
+  const WarningDate = ({target: {value}}) => {
+    setWarning(value);
+  }
+
+
   
   return (
     <>
     <Header/>
     <div className='todo'>
-      <h2>Add your events</h2>
+      <h2 className='page'>Add your events</h2>
       <div>
-      <form onSubmit={onSubmit} >
-        <input className='input' type='text' value={todoValue} onChange={onInputChange} />
-        <input type='datetime-local' value={date} onChange={DateChange}/>
-        <input type=''/>
+      <form className='formEvents' onSubmit={onSubmit} >
+      <div class="input-container">
+        <input id='event' className='input' type='text' value={todoValue} onChange={onInputChange} />
+        <label for="event" class="placeholder">Your event</label>
+      </div>
+      <div class="input-container">
+        <input id='date'className='input' type='datetime-local' value={date} onChange={DateChange}/>
+        <label for="date" class="placeholder">Choose the date & time</label>
+        </div>
+        <div class="input-container">
+        <input id='warning' className='input' placeholder='days' type='number' min="1" max="28" value={warning} onChange={WarningDate} />
+        <label for="warning" class="placeholder">Warn for</label>
+        </div>
         <button className='button1' type='submit'>Add</button>
       </form>
       <ul>{tasksArr.map((task) => {
         return <li className='tasksItem'
           key={task.id}>
-            <CountDown data={task.date} text={task.text} starttime={task.starttime} />
+            <CountDown data={task.date} warning={task.warning} text={task.text} starttime={task.starttime} />
         <button className='button' onClick={() => removeTask(task.id)} >
           <img className='taskDel' src={Close}/>
         </button> 
@@ -79,4 +104,4 @@ const ToDoList = (props) => {
   )
 }
 
-export default ToDoList
+export default ToDoList;

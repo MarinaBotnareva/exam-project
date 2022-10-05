@@ -4,7 +4,7 @@ import moment from "moment";
 
 import './CountDown.css'
 
-function CountDown({data, text, starttime}) {
+function CountDown({data, text, starttime, warning}) {
   const [duration, setDuration] = useState("");
   const [percent, setPercent] = useState('')
   const [barColor, setbarColor] = useState('')
@@ -48,8 +48,8 @@ function CountDown({data, text, starttime}) {
     }
     setDuration(diff);
     duration >= 0 && countdownTime(duration);
-    if(percent > 70) {
-      setbarColor('#ffe9e9')
+    if(warning < start.format('YYYY-MM-DD HH-mm')) {
+      setbarColor('#ffd5d5')
     }else{
       setbarColor('#b9dba4')
     }

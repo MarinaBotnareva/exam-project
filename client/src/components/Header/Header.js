@@ -4,11 +4,13 @@ import { Link, withRouter } from 'react-router-dom';
 import styles from './Header.module.sass';
 import CONSTANTS from '../../constants';
 import { clearUserStore, headerRequest } from '../../actions/actionCreator';
+import moment from "moment";
 
 class Header extends React.Component {
 
     logOut = () => {
-      localStorage.clear();
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken"); 
       this.props.clearUserStore();
       this.props.history.replace('/login');
     };
@@ -16,6 +18,18 @@ class Header extends React.Component {
     startContests = () => {
       this.props.history.push('/startContest');
     };
+
+    counterTasks = () => {
+      const tasks = JSON.parse(localStorage.getItem('tasks'+this.props.data.id));
+      const warnList = [];
+      tasks.map((task)=>{
+        if(task.warning <= moment(new Date().toLocaleString()).format('YYYY-MM-DD HH:mm')) {
+          warnList.push(task);
+        }
+      })
+      return warnList.length; 
+    }
+    
 
     renderLoginButtons = () => {
       if (this.props.data) {
@@ -53,7 +67,7 @@ class Header extends React.Component {
               </ul>
             </div>
             <img src={`${CONSTANTS.STATIC_IMAGES_PATH}email.png`} className={styles.emailIcon} alt="email" />
-            <Link to="/events" style={{ textDecoration: 'none' }}><img src={`${CONSTANTS.STATIC_IMAGES_PATH}calendar-svgrepo-com.svg`} className={styles.emailIcon} alt="calendar" /></Link>
+            <Link to="/events" style={{ textDecoration: 'none' }}><div><img src={`${CONSTANTS.STATIC_IMAGES_PATH}calendar-svgrepo-com.svg`} className={styles.emailIcon} alt="calendar" /><div>{this.counterTasks()}</div></div></Link>
           </>
         );
       }

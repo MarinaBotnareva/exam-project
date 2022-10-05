@@ -1,13 +1,12 @@
 .task{
   display: flex;
   flex-direction: row;
-  background-color: rgb(235, 235, 235);
-  border-radius: 5px;
+  background-color: rgb(241, 241, 241);
+  border-radius: 5px 0px 0px 5px;
   justify-content: space-between;
   position: relative;
   width: 95%;
   height: 40px;
-  overflow: scroll;
 }
 
 
@@ -15,11 +14,11 @@
   position: absolute;
   z-index: 1;
   border-radius: 5px;
-  color: #b9dba4;
+  color: #ffd5d5;
 }
 
 .event {
   z-index: 2;
-  margin: 0;
+  margin: 5px 10px;
   padding: 0;
 }
