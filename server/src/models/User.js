@@ -1,11 +1,14 @@
 const { Model } = require('sequelize');
 const bcrypt = require('bcrypt');
-const { CUSTOMER, CREATOR, SALT_ROUNDS } = require('../constants');
+const { SALT_ROUNDS } = require('../constants');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      User.hasMany(models.Offer, { foreignKey: 'userId', targetKey: 'id' });
+      User.hasMany(models.Offer, { 
+        foreignKey: 'userId', 
+        targetKey: 'id' 
+      });
 
       User.hasMany(models.RefreshToken, {
         foreignKey: 'userId',
@@ -39,6 +42,11 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Conversation_To_User, {
         foreignKey: 'participant',
         targetKey: 'id',
+      });
+
+      User.belongsTo(models.Role, {
+        foreignKey: 'role',
+        sourceKey: 'name',
       });
     }
   }
@@ -78,8 +86,12 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'anon.png',
     },
     role: {
-      type: DataTypes.ENUM(CUSTOMER, CREATOR),
       allowNull: false,
+        type: DataTypes.STRING,
+        references: {
+          model: 'Roles',
+          key: 'name',
+      },
     },
     balance: {
       type: DataTypes.DECIMAL,
@@ -88,10 +100,6 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         min: 0,
       },
-    },
-    accessToken: {
-      type: DataTypes.TEXT,
-      allowNull: true,
     },
     rating: {
       type: DataTypes.FLOAT,
