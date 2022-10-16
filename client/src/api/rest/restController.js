@@ -18,6 +18,8 @@ export const getCustomersContests = (data) => httpClient.post('contest/getCustom
     status: data.contestStatus,
   },
 });
+export const getContestsForModerator = () => httpClient.post('contest/getContestsForModerator');
+
 
 export const getActiveContests = ({
   offset, limit, typeIndex, contestId, industry, awardSort, ownEntries,
@@ -33,6 +35,7 @@ export const getContestById = (data) => httpClient.get('contest/getContestById',
 
 export const setNewOffer = (data) => httpClient.post('offer/setNewOffer', data);
 export const setOfferStatus = (data) => httpClient.post('offer/setOfferStatus', data);
+export const setOfferApprovement = (data) => httpClient.post('offer/setOfferApprovement', data);
 export const changeMark = (data) => httpClient.post('offer/changeMark', data);
 
 export const getPreviewChat = () => httpClient.post('chat/getPreview');

@@ -23,6 +23,13 @@ offerRouter.post(
 );
 
 offerRouter.post(
+  '/setOfferApprovement',
+  checkToken.checkToken,
+  basicMiddlewares.onlyForModerator,
+  contestController.setOfferApproment,
+);
+
+offerRouter.post(
   '/changeMark',
   checkToken.checkToken,
   basicMiddlewares.onlyForCustomer,

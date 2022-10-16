@@ -34,6 +34,18 @@ module.exports.canGetContest = async (req, res, next) => {
           },
         },
       });
+    } else if (req.tokenData.role === CONSTANTS.MODERATOR) {
+      result = await bd.Contest.findOne({
+        where: {
+          id: req.headers.contestid,
+          status: {
+            [ bd.Sequelize.Op.or ]: [
+              CONSTANTS.CONTEST_STATUS_ACTIVE,
+              CONSTANTS.CONTEST_STATUS_FINISHED,
+            ],
+          },
+        },
+      });
     }
     result ? next() : next(new RightsError());
   } catch (e) {
@@ -58,8 +70,16 @@ module.exports.onlyForCustomer = (req, res, next) => {
   }
 };
 
+module.exports.onlyForModerator = (req, res, next) => {
+  if (req.tokenData.role !== CONSTANTS.MODERATOR) {
+    return next(new RightsError('this page only for moderators'));
+  } else {
+    next();
+  }
+};
+
 module.exports.canSendOffer = async (req, res, next) => {
-  if (req.tokenData.role === CONSTANTS.CUSTOMER) {
+  if (req.tokenData.role !== CONSTANTS.CREATOR) {
     return next(new RightsError());
   }
   try {

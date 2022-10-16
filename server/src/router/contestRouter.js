@@ -44,6 +44,13 @@ contestRouter.post(
   contestController.getContests,
 );
 
+contestRouter.post(
+  '/getContestsForModerator',
+  checkToken.checkToken,
+  basicMiddlewares.onlyForModerator,
+  contestController.getContestsforModerator,
+);
+
 
 contestRouter.get(
   '/downloadFile/:fileName',

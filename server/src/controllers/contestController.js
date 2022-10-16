@@ -10,7 +10,6 @@ module.exports.dataForContest = async (req, res, next) => {
   const response = {};
   try {
     const { body: { characteristic1, characteristic2 } } = req;
-    console.log(req.body, characteristic1, characteristic2);
     const types = [characteristic1, characteristic2, 'industry'].filter(Boolean);
 
     const characteristics = await db.Select.findAll({
@@ -31,7 +30,6 @@ module.exports.dataForContest = async (req, res, next) => {
     });
     res.send(response);
   } catch (err) {
-    console.log(err);
     next(new ServerError('cannot get contest preferences'));
   }
 };
@@ -41,7 +39,7 @@ module.exports.getContestById = async (req, res, next) => {
     let contestInfo = await db.Contest.findOne({
       where: { id: req.headers.contestid },
       order: [
-        [db.Offer, 'id', 'asc'],
+        [db.Offer, 'id'],
       ],
       include: [
         {
@@ -72,7 +70,6 @@ module.exports.getContestById = async (req, res, next) => {
                   'password',
                   'role',
                   'balance',
-                  'accessToken',
                 ],
               },
             },
@@ -215,6 +212,36 @@ module.exports.setOfferStatus = async (req, res, next) => {
   }
 };
 
+const approveOffer = async (offerId) => {
+  const approvedOffer = await contestQueries.updateOffer(
+    { approved: true }, { id: offerId });
+  return approvedOffer;
+};
+
+const disapproveOffer = async (offerId) => {
+  const disapprovedOffer = await contestQueries.updateOffer(
+    { approved: false }, { id: offerId });
+  return disapprovedOffer;
+};
+
+module.exports.setOfferApproment = async (req, res, next) => {
+  if (req.body.command === 'true') {
+    try {
+      const offer = await approveOffer(req.body.offerId);
+      res.send(offer);
+    } catch (err) {
+      next(err);
+    }
+  }  else if (req.body.command === 'false') {
+    try {
+      const offer = await disapproveOffer(req.body.offerId);
+      res.send(offer);
+    } catch (err) {
+      next(err);
+    }
+  }
+}
+
 module.exports.getCustomersContests = (req, res, next) => {
   db.Contest.findAll({
     where: { status: req.headers.status, userId: req.tokenData.userId },
@@ -226,6 +253,7 @@ module.exports.getCustomersContests = (req, res, next) => {
         model: db.Offer,
         required: false,
         attributes: ['id'],
+        where: {approved: true}, 
       },
     ],
   })
@@ -270,4 +298,30 @@ module.exports.getContests = (req, res, next) => {
     .catch(err => {
       next(new ServerError());
     });
+};
+
+module.exports.getContestsforModerator  = (req, res, next) => {
+  db.Contest.findAll({
+    where: {status: 'active'},
+    order: [
+      [db.Offer, 'id', 'DESC'],
+    ],
+    include: [
+      {
+        model: db.Offer,
+        required: false,
+        attributes: ['id'],
+      },
+    ],
+  })
+  .then(contests => {
+    contests.forEach(
+      contest => contest.dataValues.count = contest.dataValues.Offers.length);
+    let haveMore = true;
+    if (contests.length === 0) {
+      haveMore = false;
+    }
+    res.send({ contests, haveMore });
+  })
+  .catch(err => next(new ServerError(err)));
 };

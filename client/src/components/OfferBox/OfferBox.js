@@ -26,7 +26,7 @@ const OfferBox = (props) => {
       if (isEqual(participants, messagesPreview[i].participants)) {
         return {
           participants: messagesPreview[i].participants,
-          _id: messagesPreview[i]._id,
+          id: messagesPreview[i].id,
           blackList: messagesPreview[i].blackList,
           favoriteList: messagesPreview[i].favoriteList,
         };
@@ -67,6 +67,38 @@ const OfferBox = (props) => {
     });
   };
 
+  const approveOffer = () => {
+    confirmAlert({
+      title: 'confirm',
+      message: 'Are u sure?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => props.setOfferApprovement(props.data.User.id, props.data.id, 'true'),
+        },
+        {
+          label: 'No',
+        },
+      ],
+    });
+  };
+
+  const disaproveOffer = () => {
+    confirmAlert({
+      title: 'confirm',
+      message: 'Are u sure?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => props.setOfferApprovement(props.data.User.id, props.data.id, 'false'),
+        },
+        {
+          label: 'No',
+        },
+      ],
+    });
+  };
+
   const changeMark = (value) => {
     props.clearError();
     props.changeMark({
@@ -79,9 +111,19 @@ const OfferBox = (props) => {
 
   const offerStatus = () => {
     const { status } = props.data;
-    if (status === CONSTANTS.OFFER_STATUS_REJECTED) {
+    if (role!==CONSTANTS.MODERATOR && status === CONSTANTS.OFFER_STATUS_REJECTED) {
       return <i className={classNames('fas fa-times-circle reject', styles.reject)} />;
-    } if (status === CONSTANTS.OFFER_STATUS_WON) {
+    } if (role!==CONSTANTS.MODERATOR && status === CONSTANTS.OFFER_STATUS_WON) {
+      return <i className={classNames('fas fa-check-circle resolve', styles.resolve)} />;
+    }
+    return null;
+  };
+
+  const offerApprovement = () => {
+    const { approved } = props.data;
+    if (role===CONSTANTS.MODERATOR && approved === false) {
+      return <i className={classNames('fas fa-times-circle reject', styles.reject)} />;
+    } if (role===CONSTANTS.MODERATOR && approved === true) {
       return <i className={classNames('fas fa-check-circle resolve', styles.resolve)} />;
     }
     return null;
@@ -99,6 +141,7 @@ const OfferBox = (props) => {
   } = props.data.User;
   return (
     <div className={styles.offerContainer}>
+      {offerApprovement()}
       {offerStatus()}
       <div className={styles.mainInfoContainer}>
         <div className={styles.userInfo}>
@@ -142,7 +185,7 @@ const OfferBox = (props) => {
                           )
                           : <span className={styles.response}>{data.text}</span>
                     }
-          {data.User.id !== id && (
+          {data.User.id !== id || role !== CONSTANTS.MODERATOR && (
           <Rating
             fractions={2}
             fullSymbol={<img src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`} alt="star" />}
@@ -153,12 +196,18 @@ const OfferBox = (props) => {
           />
           )}
         </div>
-        {role !== CONSTANTS.CREATOR && <i onClick={goChat} className="fas fa-comments" />}
+        {role === CONSTANTS.CUSTOMER && <i onClick={goChat} className="fas fa-comments" />}
       </div>
       {props.needButtons(data.status) && (
       <div className={styles.btnsContainer}>
         <div onClick={resolveOffer} className={styles.resolveBtn}>Resolve</div>
         <div onClick={rejectOffer} className={styles.rejectBtn}>Reject</div>
+      </div>
+      )}
+      {role === CONSTANTS.MODERATOR && (
+      <div className={styles.btnsContainer}>
+        <div onClick={approveOffer} className={styles.resolveBtn}>Approve</div>
+        <div onClick={disaproveOffer} className={styles.rejectBtn}>Disapprove</div>
       </div>
       )}
     </div>

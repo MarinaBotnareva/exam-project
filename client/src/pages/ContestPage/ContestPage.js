@@ -11,6 +11,8 @@ import {
   changeEditContest,
   changeContestViewMode,
   changeShowImage,
+  clearSetOfferApprovementError,
+  setOfferApprovement,
 } from '../../actions/actionCreator';
 import Header from '../../components/Header/Header';
 import ContestSideBar from '../../components/ContestSideBar/ContestSideBar';
@@ -41,14 +43,27 @@ class ContestPage extends React.Component {
     setOffersList = () => {
       const array = [];
       for (let i = 0; i < this.props.contestByIdStore.offers.length; i++) {
+        if(this.props.userStore.data.role === CONSTANTS.CUSTOMER && this.props.contestByIdStore.offers[i].approved === true){
         array.push(<OfferBox
           data={this.props.contestByIdStore.offers[i]}
           key={this.props.contestByIdStore.offers[i].id}
           needButtons={this.needButtons}
           setOfferStatus={this.setOfferStatus}
+          setOfferApprovement={this.setOfferApprovement}
           contestType={this.props.contestByIdStore.contestData.contestType}
           date={new Date()}
         />);
+        }if(this.props.userStore.data.role === CONSTANTS.CREATOR || this.props.userStore.data.role === CONSTANTS.MODERATOR){
+          array.push(<OfferBox
+            data={this.props.contestByIdStore.offers[i]}
+            key={this.props.contestByIdStore.offers[i].id}
+            needButtons={this.needButtons}
+            setOfferStatus={this.setOfferStatus}
+            setOfferApprovement={this.setOfferApprovement}
+            contestType={this.props.contestByIdStore.contestData.contestType}
+            date={new Date()}
+          />);
+          }
       }
       return array.length !== 0 ? array : <div className={styles.notFound}>There is no suggestion at this moment</div>;
     };
@@ -72,6 +87,20 @@ class ContestPage extends React.Component {
         contestId: id,
       };
       this.props.setOfferStatus(obj);
+    };
+
+    setOfferApprovement = (creatorId, offerId, command) => {
+      this.props.clearSetOfferApprovementError();
+      const { id, orderId, priority } = this.props.contestByIdStore.contestData;
+      const obj = {
+        command,
+        offerId,
+        creatorId,
+        orderId,
+        priority,
+        contestId: id,
+      };
+      this.props.setOfferApprovement(obj);
     };
 
     findConversationInfo = (interlocutorId) => {
@@ -118,6 +147,7 @@ class ContestPage extends React.Component {
         contestData,
         offers,
         setOfferStatusError,
+        setOfferApprovementError,
       } = contestByIdStore;
       return (
         <div>
@@ -174,6 +204,13 @@ Offer
                                                 clearError={clearSetOfferStatusError}
                                               />
                                               )}
+                                              {setOfferApprovementError && (
+                                              <Error
+                                                data={setOfferApprovementError.data}
+                                                status={setOfferApprovementError.status}
+                                                clearAppError={clearSetOfferApprovementError}
+                                              />
+                                              )}
                                               <div className={styles.offers}>
                                                 {this.setOffersList()}
                                               </div>
@@ -202,6 +239,8 @@ const mapDispatchToProps = (dispatch) => ({
   getData: (data) => dispatch(getContestById(data)),
   setOfferStatus: (data) => dispatch(setOfferStatus(data)),
   clearSetOfferStatusError: () => dispatch(clearSetOfferStatusError()),
+  setOfferApprovement: (data) => dispatch(setOfferApprovement(data)),
+  clearSetOfferApprovementError: () => dispatch(clearSetOfferApprovementError()),
   goToExpandedDialog: (data) => dispatch(goToExpandedDialog(data)),
   changeEditContest: (data) => dispatch(changeEditContest(data)),
   changeContestViewMode: (data) => dispatch(changeContestViewMode(data)),

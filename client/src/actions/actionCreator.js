@@ -43,6 +43,10 @@ export const clearSetOfferStatusError = () => ({
   type: ACTION.CLEAR_SET_OFFER_STATUS_ERROR,
 });
 
+export const clearSetOfferApprovementError = () => ({
+  type: ACTION.CLEAR_SET_OFFER_APPROVEMENT_ERROR,
+});
+
 export const getUserAction = (data) => ({
   type: ACTION.GET_USER_ACTION,
   replace: data,
@@ -63,6 +67,10 @@ export const getContestsForCreative = (data) => ({
 export const getContestsForCustomer = (data) => ({
   type: ACTION.GET_CONTESTS_FOR_CUSTOMER,
   data,
+});
+
+export const getContestsForModerator = () => ({
+  type: ACTION.GET_CONTESTS_FOR_MODERATOR,
 });
 
 export const getContestById = (data) => ({
@@ -101,6 +109,11 @@ export const setOffer = (data) => ({
 
 export const setOfferStatus = (data) => ({
   type: ACTION.SET_OFFER_STATUS_ACTION,
+  data,
+});
+
+export const setOfferApprovement = (data) => ({
+  type: ACTION.SET_OFFER_APPROVEMENT_ACTION,
   data,
 });
 

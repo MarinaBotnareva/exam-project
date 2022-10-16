@@ -85,14 +85,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 'anon.png',
     },
-    role: {
-      allowNull: false,
-        type: DataTypes.STRING,
-        references: {
-          model: 'Roles',
-          key: 'name',
-      },
-    },
     balance: {
       type: DataTypes.DECIMAL,
       allowNull: false,
@@ -105,6 +97,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0,
+    },
+    role: {
+      allowNull: false,
+        type: DataTypes.STRING,
+        references: {
+          model: 'Roles',
+          key: 'name',
+      },
     },
   },
   {
