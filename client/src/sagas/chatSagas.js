@@ -44,10 +44,11 @@ export function* sendMessage(action) {
         message: data.message,
         messagesPreview,
         chatData: {
-          _id: data.preview._id,
+          id: data.preview.id,
           participants: data.preview.participants,
           favoriteList: data.preview.favoriteList,
           blackList: data.preview.blackList,
+          blackList2: data.preview.blackList2,
         },
       },
     });
@@ -96,7 +97,7 @@ export function* addChatToCatalog(action) {
     const { data } = yield restController.addChatToCatalog(action.data);
     const { catalogList } = yield select((state) => state.chatStore);
     for (let i = 0; i < catalogList.length; i++) {
-      if (catalogList[i]._id === data._id) {
+      if (catalogList[i].id === data.id) {
         catalogList[i].chats = data.chats;
         break;
       }
@@ -120,7 +121,7 @@ export function* deleteCatalog(action) {
   try {
     yield restController.deleteCatalog(action.data);
     const { catalogList } = yield select((state) => state.chatStore);
-    const newCatalogList = remove(catalogList, (catalog) => action.data.catalogId !== catalog._id);
+    const newCatalogList = remove(catalogList, (catalog) => action.data.catalogId !== catalog.id);
     yield put({ type: ACTION.DELETE_CATALOG_SUCCESS, data: newCatalogList });
   } catch (err) {
     yield put({ type: ACTION.DELETE_CATALOG_ERROR, error: err.response });
@@ -132,7 +133,7 @@ export function* removeChatFromCatalogSaga(action) {
     const { data } = yield restController.removeChatFromCatalog(action.data);
     const { catalogList } = yield select((state) => state.chatStore);
     for (let i = 0; i < catalogList.length; i++) {
-      if (catalogList[i]._id === data._id) {
+      if (catalogList[i].id === data.id) {
         catalogList[i].chats = data.chats;
         break;
       }
@@ -148,7 +149,7 @@ export function* changeCatalogName(action) {
     const { data } = yield restController.changeCatalogName(action.data);
     const { catalogList } = yield select((state) => state.chatStore);
     for (let i = 0; i < catalogList.length; i++) {
-      if (catalogList[i]._id === data._id) {
+      if (catalogList[i].id === data.id) {
         catalogList[i].catalogName = data.catalogName;
         break;
       }

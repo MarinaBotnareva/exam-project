@@ -6,7 +6,6 @@ import CONSTANTS from '../../../../constants';
 const DialogBox = (props) => {
   const {
     chatPreview,
-    userId,
     getTimeStr,
     changeFavorite,
     changeBlackList,
@@ -15,11 +14,12 @@ const DialogBox = (props) => {
     chatMode,
     interlocutor,
   } = props;
+  
   const {
-    favoriteList, participants, blackList, _id, text, createAt,
+    favoriteList, participants, blackList, blackList2, id, text, createAt,
   } = chatPreview;
-  const isFavorite = favoriteList[participants.indexOf(userId)];
-  const isBlocked = blackList[participants.indexOf(userId)];
+  const isFavorite = favoriteList;
+  const isBlocked = blackList;
   return (
     <div
       className={styles.previewChatBox}
@@ -27,13 +27,14 @@ const DialogBox = (props) => {
         interlocutor,
         conversationData: {
           participants,
-          _id,
+          id,
           blackList,
+          blackList2,
           favoriteList,
         },
       })}
     >
-      <img
+       <img
         src={interlocutor.avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${interlocutor.avatar}`}
         alt="user"
       />
@@ -59,7 +60,7 @@ const DialogBox = (props) => {
             className={classNames({ 'fas fa-user-lock': !isBlocked, 'fas fa-unlock': isBlocked })}
           />
           <i
-            onClick={(event) => catalogOperation(event, _id)}
+            onClick={(event) => catalogOperation(event, id)}
             className={classNames({
               'far fa-plus-square': chatMode !== CONSTANTS.CATALOG_PREVIEW_CHAT_MODE,
               'fas fa-minus-circle': chatMode === CONSTANTS.CATALOG_PREVIEW_CHAT_MODE,

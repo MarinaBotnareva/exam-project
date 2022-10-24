@@ -1,6 +1,4 @@
-const {
-  Model
-} = require('sequelize');
+const {  Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Conversation extends Model {
     
@@ -15,19 +13,23 @@ module.exports = (sequelize, DataTypes) => {
      Conversation.belongsToMany(models.Catalog, {
       through: models.Conversation_To_Catalog,
    });
-   Conversation.hasMany(models.Conversation_To_User, {
-    foreignKey: 'conversationId',
-    targetKey: 'id',
-  });
+      Conversation.hasMany(models.Conversation_To_User, {
+        foreignKey: 'ConversationId',
+        targetKey: 'id',
+      });
+      Conversation.hasMany(models.Conversation_To_Catalog, {
+        foreignKey: 'ConversationId',
+        targetKey: 'id',
+      });
     }
   };
   Conversation.init({
     id: {
-      allowNull: false,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER,
-    }
+      allowNull: false,
+    },
   }, {
     sequelize,
     timestamps: true,

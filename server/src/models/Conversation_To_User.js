@@ -3,41 +3,40 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Conversation_To_User extends Model {
-    
     static associate(models) {
       Conversation_To_User.belongsTo(models.User, {
-        foreignKey: 'participant',
+        foreignKey: 'UserId',
         sourceKey: 'id',
       });
       Conversation_To_User.belongsTo(models.Conversation, {
-        foreignKey: 'conversationId',
+        foreignKey: 'ConversationId',
         sourceKey: 'id',
       });
     }
   
   };
   Conversation_To_User.init({
-    participant: {
-      allowNull: false,
+    UserId: {
       type: DataTypes.INTEGER,
-      field: 'user_id',
-      primaryKey: true,
+      references: {
+        model: 'Users',
+        key: 'id'
+      }
     },
-    conversationId: {
-      allowNull: false,
+    ConversationId: {
       type: DataTypes.INTEGER,
-      field: 'conversation_id',
-      primaryKey: true,
+      references: {
+        model: 'conversations',
+        key: 'id'
+      }
     },
     blackList: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
-      allowNull: false,
     },
     favoriteList:  {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
-      allowNull: false,
     }
   }, {
     sequelize,
@@ -47,3 +46,4 @@ module.exports = (sequelize, DataTypes) => {
   });
   return Conversation_To_User;
 };
+    

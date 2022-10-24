@@ -12,18 +12,22 @@ module.exports = (sequelize, DataTypes) => {
       Catalog.belongsToMany(models.Conversation, {
         through: models.Conversation_To_Catalog,
      });
+     Catalog.hasMany(models.Conversation_To_Catalog, {
+          foreignKey: 'CatalogId',
+          targetKey: 'id',
+        });
     }
   };
   Catalog.init({
     id: {
-      allowNull: false,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     userId: {
-      allowNull: false,
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: 'Users',
         key: 'id',

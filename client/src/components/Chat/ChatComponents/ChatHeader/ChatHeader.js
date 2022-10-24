@@ -16,14 +16,14 @@ const ChatHeader = (props) => {
     event.stopPropagation();
   };
 
-  const isFavorite = (chatData, userId) => {
-    const { favoriteList, participants } = chatData;
-    return favoriteList[participants.indexOf(userId)];
+  const isFavorite = (chatData) => {
+    const { favoriteList } = chatData;
+    return favoriteList;
   };
 
-  const isBlocked = (chatData, userId) => {
-    const { participants, blackList } = chatData;
-    return blackList[participants.indexOf(userId)];
+  const isBlocked = (chatData) => {
+    const { blackList } = chatData;
+    return blackList;
   };
 
   const { avatar, firstName } = props.interlocutor;

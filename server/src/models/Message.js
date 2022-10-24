@@ -17,14 +17,14 @@ module.exports = (sequelize, DataTypes) => {
   };
   Message.init({
     id: {
-      allowNull: false,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     sender: {
-      allowNull: false,
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: 'Users',
         key: 'id',
@@ -35,10 +35,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     conversation: {
-      allowNull: false,
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
-        model: 'Conversation',
+        model: 'conversations',
         key: 'id',
       },
     },

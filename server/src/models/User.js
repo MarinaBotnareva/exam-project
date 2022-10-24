@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       User.hasMany(models.Conversation_To_User, {
-        foreignKey: 'participant',
+        foreignKey: 'UserId',
         targetKey: 'id',
       });
 

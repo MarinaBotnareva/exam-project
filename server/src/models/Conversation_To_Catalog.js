@@ -3,20 +3,31 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Conversation_To_Catalog extends Model {
- 
+    static associate(models) {
+      Conversation_To_Catalog.belongsTo(models.Catalog, {
+        foreignKey: 'CatalogId',
+        sourceKey: 'id',
+      });
+      Conversation_To_Catalog.belongsTo(models.Conversation, {
+        foreignKey: 'ConversationId',
+        sourceKey: 'id',
+      });
+    }
   };
   Conversation_To_Catalog.init({
-    catalogId: {
-      allowNull: false,
+    CatalogId: {
       type: DataTypes.INTEGER,
-      field: 'catalog_id',
-      primaryKey: true,
+      references: {
+        model: 'catalogs',
+        key: 'id'
+      }
     },
-    chat: {
-      allowNull: false,
+    ConversationId: {
       type: DataTypes.INTEGER,
-      field: 'conversation_id',
-      primaryKey: true,
+      references: {
+        model: 'conversations',
+        key: 'id'
+      }
     },
   }, {
     sequelize,

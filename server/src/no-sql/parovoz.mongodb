@@ -9,7 +9,7 @@ db.getCollection('messages')
         }
     },
     {
-      $count: "match_count"
+      $count: "кол-во слова 'паровоз'"
     }
   ]
 );
