@@ -1,5 +1,6 @@
 const { MulterError } = require('multer');
 const { BaseError, UniqueConstraintError, ValidationError } = require('sequelize');
+const { errorsLogger } = require('../Log/errorLogger');
 const { logError } = require('../Log/logError');
 
 function multerErrorHandler(err) {
@@ -50,4 +51,5 @@ module.exports = (err, req, res, next) => {
   }
   
   logError(err);
+  errorsLogger(err);
 };
