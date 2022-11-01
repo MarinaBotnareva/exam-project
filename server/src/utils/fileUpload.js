@@ -26,25 +26,14 @@ const storageContestFiles = multer.diskStorage({
 const multerWithStorage = multer({ storage: storageContestFiles });
 
 const uploadAvatar = multerWithStorage.single('file');
-const uploadContestFiles = multerWithStorage.array('files', 3);
+const uploadContestFile = multerWithStorage.single('file');
 const updateContestFile = multerWithStorage.single('file');
 const uploadLogoFiles = multerWithStorage.single('offerData');    
 
 
 module.exports.uploadAvatar = uploadAvatar;
 
-/*(req, res, next) => {
-  uploadAvatar(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
-      next(new ServerError());
-    } else if (err) {
-      next(new ServerError());
-    }
-    return next();
-  });
-};*/
-
-module.exports.uploadContestFiles = uploadContestFiles; 
+module.exports.uploadContestFile = uploadContestFile; 
 
 module.exports.updateContestFile = updateContestFile;
 

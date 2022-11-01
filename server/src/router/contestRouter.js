@@ -18,7 +18,7 @@ contestRouter.post(
   '/pay',
   checkToken.checkToken,
   basicMiddlewares.onlyForCustomer,
-  upload.uploadContestFiles,
+  upload.uploadContestFile,
   basicMiddlewares.parseBody,
   validators.validateContestCreation,
   userController.payment,
@@ -42,13 +42,6 @@ contestRouter.post(
   checkToken.checkToken,
   basicMiddlewares.onlyForCreative,
   contestController.getContests,
-);
-
-contestRouter.post(
-  '/getContestsForModerator',
-  checkToken.checkToken,
-  basicMiddlewares.onlyForModerator,
-  contestController.getContestsforModerator,
 );
 
 

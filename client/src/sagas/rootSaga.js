@@ -12,7 +12,6 @@ import {
   dataForContestSaga,
   getContestByIdSaga,
   downloadContestFileSaga,
-  ContestsForModerationSaga,
 } from './contestsSagas';
 import { changeMarkSaga, setOfferStatusSaga, addOfferSaga, setOfferApprovementSaga, getOfferListSaga } from './offerSagas';
 import {

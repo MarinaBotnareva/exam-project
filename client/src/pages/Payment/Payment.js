@@ -15,7 +15,7 @@ const Payment = (props) => {
     const { number, expiry, cvc } = values;
     const data = new FormData();
     for (let i = 0; i < contestArray.length; i++) {
-      data.append('files', contestArray[i].file);
+      data.append('file', contestArray[i].file);
       contestArray[i].haveFile = !!contestArray[i].file;
     }
     data.append('number', number);
