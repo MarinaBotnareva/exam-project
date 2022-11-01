@@ -37,7 +37,6 @@ function sequelizeErrorHandler(err) {
 }  
 
 module.exports = (err, req, res, next) => {
-  console.log(err);
   
   multerErrorHandler(err);
   

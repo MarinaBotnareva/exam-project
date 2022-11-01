@@ -10,7 +10,7 @@ const fileName = now.getFullYear() + "-"+ now.getMonth() + "-" + now.getDate() +
 
 const filePath = path.resolve(__dirname, '..', '..', 'LOG/'+ fileName);
 
-const job = schedule.scheduleJob('0 50 22 * * *', () => {
+    const job = schedule.scheduleJob('0 0 * * *', () => {
     const file = fs.readFileSync(targetPath, 'utf8');
     const json = JSON.parse(file.toString());
     let array = [];
@@ -28,4 +28,5 @@ const job = schedule.scheduleJob('0 50 22 * * *', () => {
     fs.truncateSync(targetPath, 0);
 }
   )
+
 

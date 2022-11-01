@@ -11,3 +11,6 @@ server/public/*
 
 logs/*
 server/logs/*
+
+LOG/*
+server/LOG/*
