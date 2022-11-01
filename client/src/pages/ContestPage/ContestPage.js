@@ -11,8 +11,6 @@ import {
   changeEditContest,
   changeContestViewMode,
   changeShowImage,
-  clearSetOfferApprovementError,
-  setOfferApprovement,
 } from '../../actions/actionCreator';
 import Header from '../../components/Header/Header';
 import ContestSideBar from '../../components/ContestSideBar/ContestSideBar';
@@ -49,11 +47,10 @@ class ContestPage extends React.Component {
           key={this.props.contestByIdStore.offers[i].id}
           needButtons={this.needButtons}
           setOfferStatus={this.setOfferStatus}
-          setOfferApprovement={this.setOfferApprovement}
           contestType={this.props.contestByIdStore.contestData.contestType}
           date={new Date()}
         />);
-        }if(this.props.userStore.data.role === CONSTANTS.CREATOR || this.props.userStore.data.role === CONSTANTS.MODERATOR){
+        }if(this.props.userStore.data.role === CONSTANTS.CREATOR){
           array.push(<OfferBox
             data={this.props.contestByIdStore.offers[i]}
             key={this.props.contestByIdStore.offers[i].id}
@@ -87,20 +84,6 @@ class ContestPage extends React.Component {
         contestId: id,
       };
       this.props.setOfferStatus(obj);
-    };
-
-    setOfferApprovement = (creatorId, offerId, command) => {
-      this.props.clearSetOfferApprovementError();
-      const { id, orderId, priority } = this.props.contestByIdStore.contestData;
-      const obj = {
-        command,
-        offerId,
-        creatorId,
-        orderId,
-        priority,
-        contestId: id,
-      };
-      this.props.setOfferApprovement(obj);
     };
 
     findConversationInfo = (interlocutorId) => {
@@ -147,7 +130,6 @@ class ContestPage extends React.Component {
         contestData,
         offers,
         setOfferStatusError,
-        setOfferApprovementError,
       } = contestByIdStore;
       return (
         <div>
@@ -175,14 +157,14 @@ class ContestPage extends React.Component {
                           onClick={() => changeContestViewMode(true)}
                           className={classNames(styles.btn, { [styles.activeBtn]: isBrief })}
                         >
-Brief
-</span>
+                          Brief
+                          </span>
                         <span
                           onClick={() => changeContestViewMode(false)}
                           className={classNames(styles.btn, { [styles.activeBtn]: !isBrief })}
                         >
-Offer
-</span>
+                          Offer
+                          </span>
                       </div>
                       {
                                         isBrief
@@ -202,13 +184,6 @@ Offer
                                                 data={setOfferStatusError.data}
                                                 status={setOfferStatusError.status}
                                                 clearError={clearSetOfferStatusError}
-                                              />
-                                              )}
-                                              {setOfferApprovementError && (
-                                              <Error
-                                                data={setOfferApprovementError.data}
-                                                status={setOfferApprovementError.status}
-                                                clearAppError={clearSetOfferApprovementError}
                                               />
                                               )}
                                               <div className={styles.offers}>
@@ -239,8 +214,6 @@ const mapDispatchToProps = (dispatch) => ({
   getData: (data) => dispatch(getContestById(data)),
   setOfferStatus: (data) => dispatch(setOfferStatus(data)),
   clearSetOfferStatusError: () => dispatch(clearSetOfferStatusError()),
-  setOfferApprovement: (data) => dispatch(setOfferApprovement(data)),
-  clearSetOfferApprovementError: () => dispatch(clearSetOfferApprovementError()),
   goToExpandedDialog: (data) => dispatch(goToExpandedDialog(data)),
   changeEditContest: (data) => dispatch(changeEditContest(data)),
   changeContestViewMode: (data) => dispatch(changeContestViewMode(data)),

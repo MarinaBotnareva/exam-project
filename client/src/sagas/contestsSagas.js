@@ -12,16 +12,6 @@ export function* activeContestsSaga(action) {
   }
 }
 
-export function* ContestsForModerationSaga() {
-  yield put({ type: ACTION.GET_CONTESTS_ACTION_REQUEST });
-  try {
-    const { data } = yield restController.getContestsForModerator();
-    yield put({ type: ACTION.GET_CONTESTS_ACTION_SUCCESS, data });
-  } catch (e) {
-    yield put({ type: ACTION.GET_CONTESTS_ACTION_ERROR, error: e.response });
-  }
-}
-
 export function* customerContestsSaga(action) {
   yield put({ type: ACTION.GET_CONTESTS_ACTION_REQUEST });
   try {

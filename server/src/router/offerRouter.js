@@ -36,4 +36,11 @@ offerRouter.post(
   userController.changeMark,
 );
 
+offerRouter.post(
+  '/getOffers',
+  checkToken.checkToken,
+  basicMiddlewares.onlyForModerator,
+  contestController.getOffers,
+);
+
 module.exports = offerRouter;

@@ -5,6 +5,9 @@ const userQueries = require('./queries/userQueries');
 const controller = require('../socketInit');
 const UtilFunctions = require('../utils/functions');
 const CONSTANTS = require('../constants');
+const {Op} = require("sequelize");
+const mailer = require('../utils/nodemailer');
+
 
 module.exports.dataForContest = async (req, res, next) => {
   const response = {};
@@ -102,6 +105,7 @@ module.exports.downloadFile = async (req, res, next) => {
 };
 
 module.exports.updateContest = async (req, res, next) => {
+  console.log(req.file)
   if (req.file) {
     req.body.fileName = req.file.filename;
     req.body.originalFileName = req.file.originalname;
@@ -212,29 +216,47 @@ module.exports.setOfferStatus = async (req, res, next) => {
   }
 };
 
-const approveOffer = async (offerId) => {
+const approveOffer = async (offerId, email) => {
   const approvedOffer = await contestQueries.updateOffer(
     { approved: true }, { id: offerId });
+    const message = {        
+      to: email,
+      subject: 'Status of your offer was changed',
+      text: `
+      Hallo, ...!
+      Your offer was admitted for the contest.
+      `
+  }
+  mailer(message) 
   return approvedOffer;
 };
 
-const disapproveOffer = async (offerId) => {
+const disapproveOffer = async (offerId, email) => {
   const disapprovedOffer = await contestQueries.updateOffer(
     { approved: false }, { id: offerId });
+    const message = {        
+      to: email,
+      subject: 'Status of your offer was changed',
+      text: `
+      Hallo, ...!
+      Your offer was disadmitted.
+      `
+  }
+  mailer(message) 
   return disapprovedOffer;
 };
 
 module.exports.setOfferApproment = async (req, res, next) => {
   if (req.body.command === 'true') {
     try {
-      const offer = await approveOffer(req.body.offerId);
+      const offer = await approveOffer(req.body.offerId, req.body.email);
       res.send(offer);
     } catch (err) {
       next(err);
     }
   }  else if (req.body.command === 'false') {
     try {
-      const offer = await disapproveOffer(req.body.offerId);
+      const offer = await disapproveOffer(req.body.offerId, req.body.email);
       res.send(offer);
     } catch (err) {
       next(err);
@@ -300,28 +322,55 @@ module.exports.getContests = (req, res, next) => {
     });
 };
 
-module.exports.getContestsforModerator  = (req, res, next) => {
-  db.Contest.findAll({
-    where: {status: 'active'},
-    order: [
-      [db.Offer, 'id', 'DESC'],
-    ],
-    include: [
-      {
-        model: db.Offer,
-        required: false,
-        attributes: ['id'],
+module.exports.getOffers = async (req, res, next) => {
+  try {
+
+    const ids = [];
+    const contests = await db.Contest.findAll({
+      where: {status: 'active'}
+    });
+    contests.forEach((contest) => {
+      ids.push(contest.dataValues.id);
+    }); 
+
+    const offers = await db.Offer.findAll({
+      where: { 
+        approved: req.body.approved,
+        contestId: {[Op.or]: ids}
       },
-    ],
-  })
-  .then(contests => {
-    contests.forEach(
-      contest => contest.dataValues.count = contest.dataValues.Offers.length);
-    let haveMore = true;
-    if (contests.length === 0) {
-      haveMore = false;
-    }
-    res.send({ contests, haveMore });
-  })
-  .catch(err => next(new ServerError(err)));
+      order: [['id', 'DESC']],
+      include: [
+        {
+          model: db.User,
+          required: true,
+          attributes: {
+            exclude: [
+              'password',
+              'role',
+              'balance',
+            ]
+          }
+        },
+        {
+          model: db.Contest,
+          required: true,
+          attributes: {
+            exclude: [
+              'fileName',
+              'originalFileName',
+              'focusOfWork',
+              'status',
+              'prize',
+              'createdAt',
+              'priority',
+              'orderId',
+              'userId',
+            ]
+          }
+        }
+      ]});
+    res.send(offers);
+  } catch (err) {
+    next(err);
+  }
 };

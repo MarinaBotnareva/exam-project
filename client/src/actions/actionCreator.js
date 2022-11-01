@@ -136,6 +136,10 @@ export const clearContestList = () => ({
   type: ACTION.CLEAR_CONTESTS_LIST,
 });
 
+export const clearOfferList = () => ({
+  type: ACTION.CLEAR_OFFER_LIST,
+});
+
 export const onlyForNotAuthorize = (data) => ({
   type: ACTION.ONLY_FOR_NOT_AUTHORIZE_USERS,
   replace: data,
@@ -188,6 +192,11 @@ export const changeChatShow = () => ({
 
 export const setNewCustomerFilter = (filter) => ({
   type: ACTION.SET_NEW_CUSTOMER_FILTER,
+  filter,
+});
+
+export const setNewModeratorFilter = (filter) => ({
+  type: ACTION.SET_NEW_MODERATOR_FILTER,
   filter,
 });
 
@@ -308,5 +317,10 @@ export const clearChatError = () => ({
 
 export const changeModalShow = (data) => ({
   type: ACTION.CHANGE_SHOW_MODAL,
+  data,
+});
+
+export const getOfferList = (data) => ({
+  type: ACTION.GET_OFFER_LIST_ASYNC,
   data,
 });

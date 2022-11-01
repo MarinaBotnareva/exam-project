@@ -52,7 +52,7 @@ export function* setOfferStatusSaga(action) {
 export function* setOfferApprovementSaga(action) {
   try {
     const { data } = yield restController.setOfferApprovement(action.data);
-    const offers = yield select((state) => state.contestByIdStore.offers);
+    const offers = yield select((state) => state.offerStore.offers);
     offers.forEach((offer) => {
       if (data.approved === true & data.id === offer.id) {
         offer.approved = true;
@@ -63,5 +63,14 @@ export function* setOfferApprovementSaga(action) {
     yield put({ type: ACTION.CHANGE_STORE_FOR_APPROVEMENT, data: offers });
   } catch (e) {
     yield put({ type: ACTION.SET_OFFER_APPROVEMENT_ERROR, error: e.response });
+  }
+}
+
+export function* getOfferListSaga(action) {
+  try {
+    const { data } = yield restController.getOfferList(action.data);
+    yield put({ type: ACTION.RECEIVE_OFFER_LIST, data });
+  } catch (err) {
+    yield put({ type: ACTION.RECEIVE_OFFER_LIST_ERROR, error: err.response });
   }
 }
