@@ -10,7 +10,9 @@ class Header extends React.Component {
 
     logOut = () => {
       localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken"); 
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("user");
+      localStorage.removeItem("role"); 
       this.props.clearUserStore();
       this.props.history.replace('/login');
     };
@@ -67,7 +69,7 @@ class Header extends React.Component {
               </ul>
             </div>
             <img src={`${CONSTANTS.STATIC_IMAGES_PATH}email.png`} className={styles.emailIcon} alt="email" />
-            <Link to="/events" style={{ textDecoration: 'none' }}><div><img src={`${CONSTANTS.STATIC_IMAGES_PATH}calendar-svgrepo-com.svg`} className={styles.emailIcon} alt="calendar" /><div>{this.counterTasks()}</div></div></Link>
+            <Link to="/events" style={{ textDecoration: 'none' }}><div><img src={`${CONSTANTS.STATIC_IMAGES_PATH}calendar-svgrepo-com.svg`} className={styles.emailIcon} alt="calendar" /></div></Link>
           </>
         );
       }
@@ -204,7 +206,7 @@ class Header extends React.Component {
                   </li>
                 </ul>
               </div>
-              {this.props.data && this.props.data.role !== CONSTANTS.CREATOR
+              {this.props.data && this.props.data.role === CONSTANTS.CUSTOMER
                         && <div className={styles.startContestBtn} onClick={this.startContests}>START CONTEST</div>}
             </div>
           </div>

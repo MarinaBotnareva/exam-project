@@ -1,7 +1,7 @@
 import axios from 'axios';
 import CONTANTS from '../constants';
 import history from '../browserHistory';
-import { refreshRequest } from './rest/restController';
+import { refreshRequest, getUser } from './rest/restController';
 
 const httpClient = axios.create({
   baseURL: CONTANTS.BASE_URL,
@@ -17,7 +17,7 @@ httpClient.interceptors.request.use((config) => {
 
 httpClient.interceptors.response.use((response) => {
   saveTokenPair(response.data.tokenPair);
-
+  saveUserData(response.data.user);
   return response;
 }, async (err) => {
   //настройки запросов
@@ -59,6 +59,16 @@ const saveTokenPair = (tokenPair) => {
 
   if (tokenPair?.refresh) {
     window.localStorage.setItem(CONTANTS.REFRESH_TOKEN, tokenPair.refresh);
+  }
+}; 
+
+const saveUserData = (user) => {
+  if (user?.id) {
+    window.localStorage.setItem("user", user.id);
+  }
+
+  if (user?.role) {
+    window.localStorage.setItem("role", user.role);
   }
 }; 
 

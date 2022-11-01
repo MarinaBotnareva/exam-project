@@ -8,11 +8,12 @@ import moment from "moment";
 import "./Event.css"
 
 const ToDoList = (props) => {
+  const user = window.localStorage.getItem("user")
   const userStore = useSelector((state) => state.userStore.data);
   const [todoValue, setTodoValue] = useState('')
   const [date, setDate] = useState("");
   const [warning, setWarning] = useState("");
-  const [tasksArr, setTasksArr] = useState(() => { return JSON.parse(localStorage.getItem('tasks'+userStore.id)) || []});
+  const [tasksArr, setTasksArr] = useState(() => { return JSON.parse(localStorage.getItem('tasks'+user)) || []});
 
   const addTask = (userInput, date, warning) => {
     if(userInput, date, warning) {
@@ -31,7 +32,7 @@ const ToDoList = (props) => {
 
   const saveToLocalStorage = useCallback(() => {
     const sortedTasks = tasksArr.sort((a, b) => new Date(...a.date.split('/').reverse()) - new Date(...b.date.split('/').reverse())); 
-    localStorage.setItem('tasks'+userStore.id, JSON.stringify(sortedTasks));
+    localStorage.setItem('tasks'+user, JSON.stringify(sortedTasks));
   }, [tasksArr]);
 
   useEffect(() => {
