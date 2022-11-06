@@ -6,12 +6,12 @@ const upload = require('../utils/fileUpload');
 
 const userRouter = Router();
 
-userRouter.post(
+userRouter.get(
   '/getUser',
   checkToken.checkAuth,
 );
 
-userRouter.post(
+userRouter.patch(
   '/updateUser',
   checkToken.checkToken,
   // update user validation
@@ -22,7 +22,6 @@ userRouter.post(
 userRouter.post(
   '/cashout',
   checkToken.checkToken,
-  basicMiddlewares.onlyForCreative,
   userController.cashout,
 );
 

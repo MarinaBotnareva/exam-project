@@ -15,14 +15,14 @@ offerRouter.post(
   contestController.setNewOffer,
 );
 
-offerRouter.post(
+offerRouter.patch(
   '/setOfferStatus',
   checkToken.checkToken,
   basicMiddlewares.onlyForCustomerWhoCreateContest,
   contestController.setOfferStatus,
 );
 
-offerRouter.post(
+offerRouter.patch(
   '/setOfferApprovement',
   checkToken.checkToken,
   basicMiddlewares.onlyForModerator,

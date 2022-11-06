@@ -51,7 +51,7 @@ contestRouter.get(
   contestController.downloadFile,
 );
 
-contestRouter.post(
+contestRouter.patch(
   '/updateContest',
   checkToken.checkToken,
   upload.updateContestFile,
