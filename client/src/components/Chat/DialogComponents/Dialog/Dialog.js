@@ -83,7 +83,7 @@ class Dialog extends React.Component {
           <ChatHeader userId={userId} />
           {this.renderMainDialog()}
           <div ref={this.messagesEnd} />
-          {(chatData && chatData.blackList === true || chatData.blackList2 === true) ? this.blockMessage() : <ChatInput />}
+          {(chatData && (chatData.blackList === true || chatData.blackList2 === true)) ? this.blockMessage() : <ChatInput />}
         </>
       );
     }
