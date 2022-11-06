@@ -5,115 +5,22 @@ const controller = require('../socketInit');
 const _ = require('lodash');
 const { sequelize } = require('../models');
 const { QueryTypes } = require('sequelize');
+const { chatForBlackFavoriteList, conversationForMessage, findCatalog } = require('../services/chatServises');
 
 module.exports.addMessage = async (req, res, next) => {
   const participants = [req.tokenData.userId, req.body.recipient];
   participants.sort(
     (participant1, participant2) => participant1 - participant2);
     
-  try {
-  
-      let conversationId =  await sequelize.query(
-            `   SELECT "ConversationId" 
-                FROM (SELECT "ConversationId", count("ConversationId") 
-                FROM (
-                  SELECT "UserId", "ConversationId" 
-                  FROM conversations_to_users 
-                  WHERE "UserId" = ${req.tokenData.userId} OR "UserId" = ${req.body.recipient}
-                  ) as conversations 
-                  GROUP BY "ConversationId") as conv
-                  WHERE count = 2
-            `,
-            {type: QueryTypes.SELECT}
-            );
-    
+  try {          
+      let conversationId = await conversationForMessage(req.tokenData.userId, req.body.recipient);
 
-            if(!conversationId[0]){
-              const newDialog = await db.Conversation.create();
-              await db.Conversation_To_User.bulkCreate([{
-                            UserId: req.tokenData.userId,
-                            ConversationId: newDialog.dataValues.id,
-                          },{
-                            UserId: req.body.recipient,
-                            ConversationId: newDialog.dataValues.id,
-                          },
-                        ]) 
-
-                        let conversationId =  await sequelize.query(
-                          `   SELECT "ConversationId" 
-                              FROM (SELECT "ConversationId", count("ConversationId") 
-                              FROM (
-                                SELECT "UserId", "ConversationId" 
-                                FROM conversations_to_users 
-                                WHERE "UserId" = ${req.tokenData.userId} OR "UserId" = ${req.body.recipient}
-                                ) as conversations 
-                                GROUP BY "ConversationId") as conv
-                                WHERE count = 2
-                          `,
-                          {type: QueryTypes.SELECT}
-                          );
-
-                        const newConversation = await db.Conversation_To_User.findAll({
-                          where: {
-                            UserId: {[Op.or]: [req.tokenData.userId, req.body.recipient]} ,
-                            ConversationId: conversationId[0].ConversationId  
-                          }
-                        })
-                       
-                const message = await db.Message.create({
-                  sender: req.tokenData.userId,
-                  body: req.body.messageBody,
-                  conversation: newConversation[0].dataValues.ConversationId,
-                },
-                {include: [db.User, db.Conversation]});
-               
-                const interlocutorId = participants.filter(
-                  (participant) => participant !== req.tokenData.userId)[ 0 ];
-                const preview = {
-                  id: newConversation[0].dataValues.ConversationId,
-                  sender: req.tokenData.userId,
-                  text: req.body.messageBody,
-                  createAt: message.createdAt,
-                  participants,
-                  blackList: newConversation[0].dataValues.blackList,
-                  blackList2: newConversation[1].dataValues.blackList,
-                  favoriteList: newConversation[0].dataValues.favoriteList,
-                };
-                controller.getChatController().emitNewMessage(interlocutorId, {
-                  message,
-                  preview: {
-                    id: newConversation[0].dataValues.ConversationId,
-                    sender: req.tokenData.userId,
-                    text: req.body.messageBody,
-                    createAt: message.createdAt,
-                    participants,
-                    blackList: newConversation[0].dataValues.blackList,
-                    blackList2: newConversation[1].dataValues.blackList,
-                    favoriteList: newConversation[0].dataValues.favoriteList,
-                    interlocutor: {
-                      id: req.tokenData.userId,
-                      firstName: req.tokenData.firstName,
-                      lastName: req.tokenData.lastName,
-                      displayName: req.tokenData.displayName,
-                      avatar: req.tokenData.avatar,
-                      email: req.tokenData.email,
-                    },
-                  },
-                });
-                
-                res.send({
-                  message,
-                  preview: Object.assign(preview, { interlocutor: req.body.interlocutor }),
-                });          
-            }
-          
-
-            const newConversation = await db.Conversation_To_User.findAll({
-              where: {
-                UserId: {[Op.or]: [req.tokenData.userId, req.body.recipient]} ,
-                ConversationId: conversationId[0].ConversationId  
-              }
-            })
+      const newConversation = await db.Conversation_To_User.findAll({
+        where: {
+          UserId: {[Op.or]: [req.tokenData.userId, req.body.recipient]} ,
+          ConversationId: conversationId[0].ConversationId  
+        }
+      });
            
     const message = await db.Message.create({
       sender: req.tokenData.userId,
@@ -155,7 +62,6 @@ module.exports.addMessage = async (req, res, next) => {
         },
       },
     });
-    
     res.send({
       message,
       preview: Object.assign(preview, { interlocutor: req.body.interlocutor }),
@@ -233,12 +139,9 @@ module.exports.getPreview = async (req, res, next) => {
     );
 
     let ids = []
-    function conversationsId () {
-        for (let i = 0; i < conversations.length; i++){
-          ids.push(conversations[i].id);
-        }
+    for (let i = 0; i < conversations.length; i++){
+      ids.push(conversations[i].id);
     }
-    conversationsId();
 
     const senders = await db.User.findAll({
       where: {
@@ -290,45 +193,7 @@ module.exports.blackList = async (req, res, next) => {
       {type: QueryTypes.SELECT}
       );
 
-      let chat1 = await sequelize.query(
-        `SELECT *
-        FROM conversations_to_users
-        WHERE "ConversationId" =(
-          SELECT "ConversationId" 
-          FROM (
-            SELECT "UserId", "ConversationId" 
-            FROM conversations_to_users 
-            WHERE "UserId" = ${req.tokenData.userId} OR "UserId" = ${req.body.participants}
-            ) as conversations 
-            GROUP BY "ConversationId" 
-            ORDER BY count("ConversationId") DESC LIMIT 1)
-            AND "UserId" = ${req.tokenData.userId}`,
-        {type: QueryTypes.SELECT}
-        );
-
-      let chat2 = await sequelize.query(
-        `SELECT *
-        FROM conversations_to_users
-        WHERE "ConversationId" =(
-          SELECT "ConversationId" 
-          FROM (
-            SELECT "UserId", "ConversationId" 
-            FROM conversations_to_users 
-            WHERE "UserId" = ${req.tokenData.userId} OR "UserId" = ${req.body.participants}
-            ) as conversations 
-            GROUP BY "ConversationId" 
-            ORDER BY count("ConversationId") DESC LIMIT 1)
-            AND "UserId" = ${req.body.participants}`,
-        {type: QueryTypes.SELECT}
-        );
-
-        let chat = {
-          participants: chat2[0].UserId,
-          id: chat1[0].ConversationId,
-          blackList: chat1[0].blackList,
-          blackList2: chat2[0].blackList,
-          favoriteList: chat1[0].favoriteList,
-        }
+    const chat = await chatForBlackFavoriteList(req.tokenData.userId, req.body.participants);
     
     res.send(chat);
     const interlocutorId = req.body.participants;
@@ -358,45 +223,7 @@ module.exports.favoriteChat = async (req, res, next) => {
       {type: QueryTypes.SELECT}
       );
 
-      let chat1 = await sequelize.query(
-        `SELECT *
-        FROM conversations_to_users
-        WHERE "ConversationId" =(
-          SELECT "ConversationId" 
-          FROM (
-            SELECT "UserId", "ConversationId" 
-            FROM conversations_to_users 
-            WHERE "UserId" = ${req.tokenData.userId} OR "UserId" = ${req.body.participants}
-            ) as conversations 
-            GROUP BY "ConversationId" 
-            ORDER BY count("ConversationId") DESC LIMIT 1)
-            AND "UserId" = ${req.tokenData.userId}`,
-        {type: QueryTypes.SELECT}
-        );
-
-      let chat2 = await sequelize.query(
-        `SELECT *
-        FROM conversations_to_users
-        WHERE "ConversationId" =(
-          SELECT "ConversationId" 
-          FROM (
-            SELECT "UserId", "ConversationId" 
-            FROM conversations_to_users 
-            WHERE "UserId" = ${req.tokenData.userId} OR "UserId" = ${req.body.participants}
-            ) as conversations 
-            GROUP BY "ConversationId" 
-            ORDER BY count("ConversationId") DESC LIMIT 1)
-            AND "UserId" = ${req.body.participants}`,
-        {type: QueryTypes.SELECT}
-        );
-
-        let chat = {
-          participants: chat2[0].UserId,
-          id: chat1[0].ConversationId,
-          blackList: chat1[0].blackList,
-          blackList2: chat2[0].blackList,
-          favoriteList: chat1[0].favoriteList,
-        }
+      const chat = await chatForBlackFavoriteList(req.tokenData.userId, req.body.participants);
 
     res.send(chat);
   } catch (err) {
@@ -449,27 +276,7 @@ module.exports.updateNameCatalog = async (req, res, next) => {
       }
        });
 
-       const findCatalog = await db.Catalog.findOne({
-        where: {id: req.body.catalogId,
-        }
-      });
-      const findChats = await db.Conversation_To_Catalog.findAll(
-        {
-          where: {CatalogId: req.body.catalogId}
-        }
-      );
-           
-      let catalog = {
-        id: findCatalog.dataValues.id, 
-        userId: findCatalog.dataValues.userId, 
-        catalogName: findCatalog.dataValues.catalogName, 
-        chats:[]
-      };
-  
-      findChats.forEach(chat => {
-          catalog.chats.push(chat.dataValues.ConversationId)
-      })
-
+    let catalog = await findCatalog(req.body.catalogId)
 
     res.send(catalog);
   } catch (err) {
@@ -502,26 +309,8 @@ module.exports.removeChatFromCatalog = async (req, res, next) => {
         }
       }
     )
-    const findCatalog = await db.Catalog.findOne({
-      where: {id: req.body.catalogId,
-      }
-    });
-    const findChats = await db.Conversation_To_Catalog.findAll(
-      {
-        where: {CatalogId: req.body.catalogId}
-      }
-    );
-         
-    let catalog = {
-      id: findCatalog.dataValues.id, 
-      userId: findCatalog.dataValues.userId, 
-      catalogName: findCatalog.dataValues.catalogName, 
-      chats:[]
-    };
-
-    findChats.forEach(chat => {
-        catalog.chats.push(chat.dataValues.ConversationId)
-    })
+  
+    let catalog = await findCatalog(req.body.catalogId)
 
     res.send(catalog);
   } catch (err) {
