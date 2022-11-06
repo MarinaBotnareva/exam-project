@@ -35,7 +35,7 @@ const UserProfile = (props) => {
             >
               UserInfo
             </div>
-            {role === CONSTANTS.CREATOR && (
+            {role !== CONSTANTS.MODERATOR && (
               <div
                 className={classNames(styles.optionContainer, { [styles.currentOption]: profileModeView === CONSTANTS.CASHOUT_MODE })}
                 onClick={() => changeProfileModeView(CONSTANTS.CASHOUT_MODE)}

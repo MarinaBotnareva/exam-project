@@ -56,6 +56,12 @@ const UserInfo = (props) => {
                   <span className={styles.info}>{`${balance}$`}</span>
                 </div>
               )}
+              {role === CONSTANTS.CUSTOMER && (
+                <div className={styles.infoBlock}>
+                  <span className={styles.label}>Cashback</span>
+                  <span className={styles.info}>{`${balance}$`}</span>
+                </div>
+              )}
             </div>
           </div>
         )}

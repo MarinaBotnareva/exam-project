@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import ManWithMob from "./manWithMob.svg"
 import Modal from "./Modal";
-import './FirstSection.css'
+import './FirstSection.css';
 
 const divStyle = {
   width: '100px',
@@ -28,10 +28,10 @@ const FirstSection = () => {
             <img src={ManWithMob} class="first-icon" />
         </div>
       </section>
+
       <Modal
 
         isVisible={isModal}
-        content={<iframe className="video" src="https://player.vimeo.com/video/368584367?autoplay=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>}
         onClose={() => setModal(false)}
       />
     </article>
