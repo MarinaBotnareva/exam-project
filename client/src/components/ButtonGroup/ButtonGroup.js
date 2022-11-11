@@ -19,33 +19,25 @@ import './ButtonGroup.css'
   }
    
     return(
-        <div class="group" >
-          <label>
-            <Field type="radio" class="custom-radio" name={name} value="asname" onClick={classChanged} />
-        <div className={activity.asname ? 'card getactive' : 'card'} >
-            <div class="mx-auto mb-3">
-               <span class="badge badge-pill badge-secondary">Yes</span>
-            </div>
-            <h5 >The Domain should exactly match the name</h5>
-         </div>
+        <div className="group" >
+          <label className={activity.asname ? 'getactive' : 'notactive'}>
+            <Field type="radio" className="custom-radio" name={name} value="asname" onClick={classChanged} />
+               <div className={activity.asname ? 'activeradio' : "radio"}>Yes</div>
+            <p  className="radioText">The Domain should exactly match the name</p>
           </label>
-          <label>
-            <Field type="radio" class="custom-radio" name={name} value="yes" onClick={classChanged} />
-          <div className={activity.yes ? 'card getactive' : 'card'} >
-            <div class="mx-auto mb-3">
-               <span class="badge badge-pill badge-secondary">Yes</span>
+          <label className={activity.yes ? 'getactive' : 'notactive'}>
+            <Field type="radio" className="custom-radio" name={name} value="yes" onClick={classChanged} />
+            <div className={activity.yes ? 'activeradio' : "radio"}>
+               Yes
             </div>
-            <h5 >But minor variations are allowed (Recommended)</h5>
-         </div>
+            <p  className="radioText">But minor variations are allowed (Recommended)</p>
           </label>
-          <label>
+          <label className={activity.no ? 'getactive' : 'notactive'}>
             <Field type="radio" className="custom-radio" name={name} value="no" onClick={classChanged} />
-          <div className={activity.no ? 'card getactive' : 'card'}>
-            <div class="mx-auto mb-3">
-               <span class="badge badge-pill badge-secondary">No</span>
+            <div className={activity.no ? 'activeradio' : "radio"}>
+               No
             </div>
-            <h5 > I am only looking for a name, not a Domain</h5>
-          </div>
+             <p className="radioText">I am only looking for a name, not a Domain</p>
           </label>
         </div>
           

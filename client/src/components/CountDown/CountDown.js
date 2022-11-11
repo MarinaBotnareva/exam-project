@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import moment from "moment";
 
@@ -61,7 +61,7 @@ function CountDown({data, text, starttime, warning}) {
 
   const barStyle = {
     "width": percent + "%",
-    "height" : "40px",
+    "height" : "100%",
     "background": barColor,
     "transition": "width 1s"
   }
@@ -71,7 +71,7 @@ function CountDown({data, text, starttime, warning}) {
     <div className="task">
     <div className="bar" style={barStyle}></div>  
     <p className="event">{text}</p>
-    <p className="event"> {days}d : {hours}h : {minutes}m : {seconds}s </p>
+    <p className="time"> {days}d : {hours}h : {minutes}m : {seconds}s </p>
     
     </div>
     </>

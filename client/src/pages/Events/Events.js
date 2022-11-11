@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback} from 'react';
 import { useSelector } from 'react-redux';
 import CountDown from '../../components/CountDown/CountDown';
-import Close from '../../components/FirstSection/close.svg'
 import Header from '../../components/Header/Header';
 import moment from "moment";
+import CONSTANTS from "../../constants";
 
 import "./Event.css"
 
@@ -76,17 +76,17 @@ const ToDoList = (props) => {
       <h2 className='page'>Add your events</h2>
       <div>
       <form className='formEvents' onSubmit={onSubmit} >
-      <div class="input-container">
+      <div className="input-container">
         <input id='event' className='input' type='text' value={todoValue} onChange={onInputChange} />
-        <label for="event" class="placeholder">Your event</label>
+        <label for="event" className="placeholder">Your event</label>
       </div>
-      <div class="input-container">
+      <div className="input-container">
         <input id='date'className='input' type='datetime-local' value={date} onChange={DateChange}/>
-        <label for="date" class="placeholder">Choose the date & time</label>
+        <label for="date" className="placeholder">Choose the date & time</label>
         </div>
-        <div class="input-container">
+        <div className="input-container">
         <input id='warning' className='input' placeholder='days' type='number' min="1" max="28" value={warning} onChange={WarningDate} />
-        <label for="warning" class="placeholder">Warn for</label>
+        <label for="warning" className="placeholder">Warn for</label>
         </div>
         <button className='button1' type='submit'>Add</button>
       </form>
@@ -95,7 +95,7 @@ const ToDoList = (props) => {
           key={task.id}>
             <CountDown data={task.date} warning={task.warning} text={task.text} starttime={task.starttime} />
         <button className='button' onClick={() => removeTask(task.id)} >
-          <img className='taskDel' src={Close}/>
+          <img className='taskDel' src={`${CONSTANTS.STATIC_IMAGES_PATH}close.svg`}/>
         </button> 
         </li>
       } )}</ul>

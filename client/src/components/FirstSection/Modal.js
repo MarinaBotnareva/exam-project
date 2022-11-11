@@ -1,30 +1,25 @@
 import React, {useEffect} from "react";
-import Close from "./close.svg";
-import Fullscreen from "./rectangle.svg"
-import './Modal.css';
+import styles from './Modal.module.sass';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import CONSTANTS from "../../constants";
 
-const Modal = ({ isVisible = false, content, onClose }) => {
+const Modal = ({ isVisible = false, onClose }) => {
 
   const handle = useFullScreenHandle();
 
   return !isVisible ? null : (
   <FullScreen handle={handle}>
-    <div className="modal">
-      <div className="for-close" onClick={onClose}></div>
-      <div className="modal-dialog">
-        <div className="modal-body">
-          <div className="modal-content">
-            <iframe className="video" src="https://player.vimeo.com/video/368584367?autoplay=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-            </div>
-        </div>
+    <div className={styles.modal}>
+      <div className={styles.forClose} onClick={onClose}></div>
+      <div className={styles.modalMain}>
+        <iframe className={styles.video} src="https://player.vimeo.com/video/368584367?autoplay=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
       </div> 
-      <div className="btn-holder">
-      <button className="modal-btn" onClick={handle.active ? handle.exit : handle.enter}>
-      <img src={Fullscreen}/>
+      <div className={styles.btnHolder} >
+      <button className={styles.btn} onClick={handle.active ? handle.exit : handle.enter}>
+      <img src={`${CONSTANTS.STATIC_IMAGES_PATH}rectangle.svg`}/>
           </button>
-      <button className="modal-btn" onClick={onClose}>
-            <img src={Close}/>
+      <button className={styles.btn} onClick={onClose}>
+            <img src={`${CONSTANTS.STATIC_IMAGES_PATH}close.svg`}/>
           </button>
           </div>
     </div>

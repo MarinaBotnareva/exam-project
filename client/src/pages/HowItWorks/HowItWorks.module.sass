@@ -1,0 +1,82 @@
+body 
+  font-family: "Poppins",Helvetica,Arial,sans-serif
+
+.accordion 
+  display: flex
+  flex-direction: row
+  max-width: 1250px
+  margin: auto
+  @media(max-width: 992px)
+    flex-direction: column
+    margin: 0 0 0 0.6rem
+
+.nav 
+  display: flex
+  background-color: #377dff
+  max-width: 300px
+  border-radius: 5px
+  margin: 4rem 2rem
+  padding: 2rem
+  max-height: 150px
+  font-size: .875rem
+  font-weight: 200
+  @media(max-width: 1199px)
+    padding: 2rem 1rem
+  @media(max-width: 992px) 
+    min-width: 95%
+    margin: 2rem 0 
+  
+  a 
+    display: block
+    color: #FFF
+    text-decoration: none
+    margin-bottom: 2rem
+    margin-right: 3rem
+    @media(max-width: 1199px)
+      margin: 0 1rem 2rem 1rem
+
+.spaceBottom 
+  padding: 4rem 0
+  border-bottom: 1px solid #e7eaf3
+
+  &:last-child 
+    border-bottom: none
+
+  &:first-child
+    @media(max-width: 1199px)
+      padding: 0 0 4rem 0  
+
+
+.list 
+  border-radius: 5px
+  max-width: 900px
+  box-sizing: border-box
+
+.sponsors 
+  margin: 0 auto
+  padding: 5rem 1rem 2rem 1rem
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+  max-width: 1260px
+  @media (max-width: 992px)
+    flex-direction: column
+
+  .sponsorsContainer 
+    border-top: 1px solid rgb(233, 233, 233)
+    padding: 2rem 0
+    @media(max-width: 992px)
+      display: flex
+      flex-direction: column
+      align-items: center
+
+    .sponsor
+      flex: 0 0 25%
+      max-width: 25%
+      padding-right: 5rem
+      @media(max-width: 992px)
+        padding: 10px 0
+
+
+

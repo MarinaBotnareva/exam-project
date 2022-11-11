@@ -11,7 +11,7 @@ const FormInput = ({
         field,
         meta: { touched, error },
       } = props;
-
+ 
       const inputClassName = classNames(classes.input, {
         [classes.notValid]: touched && error,
         [classes.valid]: touched && !error,

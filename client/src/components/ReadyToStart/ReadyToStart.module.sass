@@ -1,0 +1,117 @@
+.gradient
+  background: rgb(45,21,130)
+  background: linear-gradient(150deg, rgba(45,21,130,1) 0%, rgba(25,160,255,1) 100%)
+  position: relative
+  z-index: 2
+  overflow: hidden
+
+  .liefs
+    position: absolute
+    z-index: -1
+
+    &:first-child
+      top:0
+      left:0
+
+    &:last-child
+      bottom:0
+      right:0
+
+  .container
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    text-align: center
+    padding: 2rem 2rem
+
+    .aqua 
+      color: #00dffc
+      font-size: 35px
+     
+    p 
+      color: #ffffff
+      line-height: 1.7
+      margin: 1rem 0
+      font-size: 20px
+      
+    .btn 
+      display: inline-block
+      font-weight: 400
+      text-align: center
+      vertical-align: middle
+      padding: 0.75rem 1rem
+      font-size: 1.1rem
+      line-height: 1.5
+      transition: all 0.2s ease-in-out
+      text-decoration: none
+      border-radius: 5px
+      color: #000
+      background: #ffffff
+      position: relative
+      @media(max-width: 480px)
+        width: 100%  
+        min-width: 95%
+
+      &:hover
+        box-shadow: 0px 5px 10px rgba(255, 255, 255, 0.329)
+        top: -3px  
+
+.wrapper
+  margin: 2rem auto
+  padding: 2rem 1rem
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  max-width: 1260px
+  @media(max-width:991px)
+    flex-direction: column
+    align-items: center
+
+  .item
+    text-align: center
+    max-width: 370px
+    padding: 0 3rem
+    position: relative
+    @media(max-width:991px)
+      padding: 0
+
+    &::after
+      position: absolute
+      right: -0.9375rem
+      top: 40%
+      height: 4rem
+      border-left: 1px solid rgba(30,32,34,.2)
+      content: ""
+      margin-top: -2rem
+      transform: rotate(15deg)
+      @media(max-width:991px)
+        display: none
+     
+    .text
+      width: 300px
+      
+      .dark
+        color: black
+        font-weight:600
+
+  .item.third::after
+    opacity: 0
+    
+    
+      
+
+      
+
+.icon, .png
+  height: 77.36px
+
+.icon    
+  width: 72px
+        
+
+
+
+
+
+

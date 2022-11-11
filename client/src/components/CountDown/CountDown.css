@@ -6,7 +6,7 @@
   justify-content: space-between;
   position: relative;
   width: 95%;
-  height: 40px;
+  height: auto;
 }
 
 
@@ -17,8 +17,21 @@
   color: #ffd5d5;
 }
 
-.event {
+.event, .time {
   z-index: 2;
   margin: 5px 10px;
   padding: 0;
+}
+
+.event {
+  max-width: 300px;
+} 
+
+@media(max-width: 600px){
+  .task{
+    flex-direction: column;
+  }
+  .event {
+    max-width: 100px;
+  }
 }

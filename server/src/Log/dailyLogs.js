@@ -6,7 +6,7 @@ const targetPath = path.resolve(__dirname, '..', '..', 'LOG/errors.json');
 
 const now = new Date();
 
-const fileName = now.getFullYear() + "-"+ now.getMonth() + "-" + now.getDate() +'.json';
+const fileName = now.getFullYear() + "-"+ (now.getMonth()+1) + "-" + now.getDate() +'.json';
 
 const filePath = path.resolve(__dirname, '..', '..', 'LOG/'+ fileName);
 

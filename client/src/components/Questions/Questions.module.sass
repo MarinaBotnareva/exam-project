@@ -1,0 +1,88 @@
+.container
+  margin: 0 auto
+  padding: 2rem 1rem
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  max-width: 1260px
+  @media(max-width:991px)
+    flex-direction: column
+  
+  .benefits
+    box-shadow: 0 10px 40px 10px rgba(140,152,164,.175)
+    padding: 30px 50px 50px 70px
+    border-radius: 5px
+
+    .benefit
+      padding: 20px 0 10px 30px 
+      
+      &:first-child
+        border-bottom: #e1e1e1 solid 1px
+
+      .qTitle
+        position: relative
+
+        &::before
+          content: ">"
+          width: 35px
+          height: 35px
+          border-radius: 50%
+          background-color: rgba(0,105,255,0.065)
+          color: #0060e6
+          font-size: 20px
+          font-weight: 600
+          position: absolute
+          text-align: center
+          display: flex
+          justify-content: center
+          align-items: center
+          left: -10%
+
+      h5 
+        font-size: 20px   
+        padding: 1rem 0 0 0
+         
+      .small
+        font-size: 14px
+        margin-top: 10px  
+
+      .learn
+        background: #fff
+        color: #377dff
+        border: none   
+
+  .consultation
+    background-color: #377dff
+    padding: 60px 90px 50px 60px
+    color: #fff
+
+    p
+      color: #fff
+
+    a
+      color: #fff
+      text-decoration: none  
+
+    .questions
+      margin: 0 0 30px
+
+    .btn
+      display: inline-block
+      font-weight: 400
+      color: #377dff
+      text-align: center
+      vertical-align: middle
+      padding: 0.75rem 1rem
+      font-size: 1.1rem
+      line-height: 1.5
+      border-radius: 6.1875rem
+      transition: all 0.2s ease-in-out 
+      background: #ffffff
+      border: none
+      position: relative
+      @media(max-width: 480px)
+        width: 100% 
+
+      &:hover
+        box-shadow: 0px 5px 10px rgba(49, 121, 255, 0.329)
+        top: -3px   

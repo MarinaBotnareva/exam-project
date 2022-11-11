@@ -1,0 +1,45 @@
+.fa-heart.list, .fa-smile.list, .fa-studiovinari.list, .fa-steam-symbol.list, .fa-table-tennis.list {
+    border-radius: 50%;
+    font-size: 1rem;
+   display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    left: -2%;
+    bottom: 2%
+}
+
+.fa-heart.list{
+  color: #de4437;
+  background: rgba(222,68,55,.1);
+  width: 2.3rem;
+  height: 2.3rem;
+}
+
+.fa-smile.list{
+  color: #377dff;
+  background: rgba(55,125,255,.1);
+  width: 3.125rem;
+  height: 2.3rem;
+}
+
+.fa-studiovinari.list{
+  color: #00c9a7;
+  background: rgba(0,201,167,.1);
+  width: 4.2rem;
+  height: 2.3rem;
+}
+
+.fa-steam-symbol.list{
+  color: #de4437;
+  background: rgba(222,68,55,.1);
+  width: 2.3rem;
+  height: 2.3rem;
+}
+
+.fa-table-tennis.list {
+  color: #377dff;
+  background: rgba(55,125,255,.1);
+  width: 4.2rem;
+  height: 2.3rem;
+}

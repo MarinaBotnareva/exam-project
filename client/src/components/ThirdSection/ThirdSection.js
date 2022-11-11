@@ -1,38 +1,32 @@
 import React from 'react';
-import Cup from './cup.svg';
-import Man from './man.svg';
-import './ThirdSection.css';
+import styles from './ThirdSection.module.sass';
+import CONSTANTS from "../../constants";
 
 const listInfo = ["Fill out your Naming Brief and begin receiving name ideas in minutes", "Rate the submissions and provide feedback to creatives. Creatives submit even more names based on your feedback.", "Our team helps you test your favorite names with your target audience. We also assist with Trademark screening.", "Pick a Winner. The winner gets paid for their submission." ]
 
 const ThirdSection = () => {
   return (
-    <div class="section space-2">
-
-    <div class="section-title">
-      <img class='icons' src={Cup}/>
-      <h2 class="font-weight-medium">How Do Naming Contests Work?</h2>
+  <div className={styles.section}>
+    <div className={styles.sectionTitle}>
+      <img className={styles.icons} src={`${CONSTANTS.STATIC_IMAGES_PATH}cup.svg`}/>
+      <h2>How Do Naming Contests Work?</h2>
     </div>
-   
-      <div class="container wrapper">
-        <ul class="list-unstyled">
-          {listInfo.map((item, index) => {
-              return (
-                <>
-                <li class="chain">
-                  <div className='list-border'>
-                    <span class="list-num">{index + 1 + "."}</span>
-                    <p class="list-text">{item}</p>
-                    </div>
+    <div className={styles.container}>
+      <ul className={styles.list}>
+        {listInfo.map((item, index) => {
+            return (
+            <>
+              <li className={styles.chain}>
+                <div className={styles.border}>
+                  <span className={styles.num}>{index + 1 + "."}</span>
+                  <p className={styles.listText}>{item}</p>
+                </div>
               </li>
-              </>
-              );
-            })}
-          
-        </ul>
-
-      <img src={Man}/>
-
+            </>
+            );
+          })}
+      </ul>
+      <img src={`${CONSTANTS.STATIC_IMAGES_PATH}man.svg`}/>
     </div>
   </div>
   )

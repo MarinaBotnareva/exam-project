@@ -1,0 +1,92 @@
+.section
+  margin-top: 1rem
+  padding: 4rem 0
+  border-bottom: 1px solid #e7eaf3
+  text-align: center
+  
+  .sectionTitle
+    margin-bottom: 4rem
+  
+  .icons
+    margin-bottom: 1.2rem
+
+  .container
+    margin: 0 auto
+    padding: 2rem 1rem 0 1rem
+    display: flex
+    flex-direction: row-reverse
+    justify-content: space-between
+    max-width: 1260px
+    @media(max-width:991px)
+      flex-direction: column
+      
+    .list
+      max-width: 50%
+      @media(max-width: 991px)
+        min-width: 100%
+
+
+      .chain
+        position: relative
+        padding-left: 2.5rem
+        padding-bottom: 2rem
+
+        &::before
+          position: absolute
+          top: 0
+          bottom: 0
+          right: 0
+          left: -0.25rem
+          width: 2rem
+          height: 0.0625rem
+          border-top: 1px solid #e7eaf3
+          margin: auto auto auto 0
+          content: ""
+          
+        &:first-child::after 
+          height: 50%
+          top: auto
+
+        &::after 
+          position: absolute
+          top: 0
+          bottom: 0
+          right: 0
+          left: -0.3125rem
+          width: 0.0625rem
+          height: 100%
+          border-right: 1px solid #e7eaf3
+          margin: auto auto auto 0
+          content: ""
+
+        &:last-child::after 
+          height: 50%
+          bottom: auto
+
+        .border
+          display: flex
+          flex-direction: row
+          max-width: 504px
+          border: 1px solid #e7eaf3
+          justify-content: center
+          align-items: center
+          padding: 2rem 1rem
+          @media(max-width: 991px)
+            min-width: 95%
+
+
+          .listText
+            max-width: 440px
+            font-size: 16px
+            text-align: start
+            margin: 0
+            @media(max-width: 991px)
+              min-width: 80%
+
+
+          .num
+            font-size: 56px
+            color: #377dff
+            margin-right: 1rem
+
+

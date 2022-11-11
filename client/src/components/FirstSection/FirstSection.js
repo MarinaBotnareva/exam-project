@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import ManWithMob from "./manWithMob.svg"
 import Modal from "./Modal";
-import './FirstSection.css';
+import styles from './FirstSection.module.sass'; 
+import CONSTANTS from "../../constants";
 
 const divStyle = {
   width: '100px',
@@ -12,21 +12,19 @@ const FirstSection = () => {
   return (
     <>
     <article>
-      <section className="top-container">
-        <div className="text">
-        <span class="btn btn-xs btn-soft-primary btn-pill mb-2">World's #1 Naming Platform</span>
+      <section className={styles.container}>
+        <div className={styles.text}>
+          <span className={styles.theme}>World's #1 Naming Platform</span>
           <h1>How Does Squadhelp Work?</h1> 
           <p>Squadhelp helps you come up with a great name for your business by combining the power of crowdsourcing with sophisticated technology and Agency-level validation services.</p>
-          <div className="mb-9">
-            <button class="btn top-btn btn-primary btn-pill shadow" data-fancybox="" onClick={() => setModal(true)}>
-              <small class="fas fa-play mr-2"></small>
+          <div className={styles.buttonContainer}>
+            <button className={styles.button} data-fancybox="" onClick={() => setModal(true)}>
+            <img src={`${CONSTANTS.STATIC_IMAGES_PATH}play.png`} className={styles.play} />
                 Play Video
             </button>
           </div>
         </div>
-        <div className="icon">
-            <img src={ManWithMob} class="first-icon" />
-        </div>
+        <img src={`${CONSTANTS.STATIC_IMAGES_PATH}manWithMob.svg`} className={styles.firstIcon} />
       </section>
 
       <Modal

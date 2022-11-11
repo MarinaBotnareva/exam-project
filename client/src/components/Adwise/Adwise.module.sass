@@ -1,0 +1,76 @@
+.modal
+  position: fixed
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  width: 100%
+  z-index: 9999
+  display: flex
+  align-items: center
+  justify-content: center
+  background-color: rgba(0, 0, 0, 0.789)
+  animation-name: appear
+  animation-duration: 300ms       
+
+  .forClose
+    width: 100%
+    height: 100%
+    position: absolute
+    z-index: -1
+
+  .modalMain 
+    max-width: 480px
+    min-width: none
+    background: rgb(255, 255, 255)
+    display: flex
+    flex-direction: column
+    border-radius: 10px
+    height: auto
+
+    .blue
+      color: #377dff
+      padding: 1rem 0 1rem 2rem 
+
+    .subtitle
+      padding: 0 2rem
+      margin: 0  
+
+    .adwiseList 
+      padding: 1rem 2rem
+
+      .adwise
+        display: flex
+        flex-direction: row  
+        padding: 1rem 0
+        align-items: center
+
+    .listFooter
+      border-top: 1px solid #dddddd  
+      padding: 1rem 2rem
+      display: flex
+      justify-content: end
+
+
+      .listClose
+        padding: 0.625rem 1.125rem
+        font-size: .875rem  
+        border: none
+        color: #77838f
+        border-radius: 0.25rem
+        position: relative
+
+        &:hover
+          background: #77838f
+          color: #fff
+          box-shadow: 0px 5px 10px rgba(49, 121, 255, 0.329)
+          top: -3px  
+      
+    
+         
+
+@keyframes appear 
+  from 
+    opacity: 0
+  to 
+    opacity: 1     

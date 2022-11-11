@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../AccordionList/AccordionList.css'
+import styles from './AccordionList.module.sass'
 
 function AccordionList (props) {
   const [clicked, setClicked] = useState();
@@ -14,7 +14,6 @@ function AccordionList (props) {
     }
 
     setClicked(index);
-    console.log(clicked);
   };
 
   return (
@@ -22,18 +21,18 @@ function AccordionList (props) {
         <div>
           {props.infoList.map((item, index) => {
             return (
-              <div className={ clicked=== index ? 'card' : 'hidden-card'}>
-                <div className={ clicked=== index ? 'question' : 'question active-question'} onClick={() => toggle(index)} key={index}>
+              <div className={styles.card}>
+                <div className={styles.question} onClick={() => toggle(index)} key={index}>
                   <h5>{item.question}</h5>
-                  <span class={ clicked=== index ? 'card-btn-arrow-act': 'card-btn-arrow'}>
-                      <span class="fas fa-arrow-down small"></span>
+                  <span className={ clicked=== index ? styles.arrowAct : styles.arrow}>
+                      <span className="fas fa-arrow-down"></span>
                     </span>
                 </div>
                 {clicked === index ? (
-                  <div className='answer'>
+                  <div className={styles.answer}>
                     {item.answer}
                   </div>
-                ) : <div className='hidden'>
+                ) : <div className={styles.hidden}>
                 {item.answer}
               </div>}
               </div>
