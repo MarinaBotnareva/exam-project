@@ -3,9 +3,9 @@ const { v4: uuid } = require('uuid');
 
 const bd = require('../models');
 const controller = require('../socketInit');
-const userQueries = require('./queries/userQueries');
-const bankQueries = require('./queries/bankQueries');
-const ratingQueries = require('./queries/ratingQueries');
+const userServices = require('../services/userServices');
+const bankServices = require('../services/bankServices');
+const ratingServices = require('../services/ratingServices');
 const { prepareUser } = require('../utils/user.utils');
 const { createSession, refreshSession} = require('../services/jwtService');
 const CONSTANTS = require('../constants');
@@ -13,7 +13,7 @@ const { CONTEST_STATUS_PENDING, CONTEST_STATUS_ACTIVE } = require('../constants'
 
 module.exports.login = async (req, res, next) => {
   try {
-    const foundUser = await userQueries.checkUserLogin(req.body.email, req.body.password);
+    const foundUser = await userServices.checkUserLogin(req.body.email, req.body.password);
       
     const tokenPair = await createSession(foundUser);
     
@@ -24,7 +24,7 @@ module.exports.login = async (req, res, next) => {
 };
 module.exports.registration = async (req, res, next) => {
   try {
-    const newUser = await userQueries.userCreation(req.body);
+    const newUser = await userServices.userCreation(req.body);
 
     const tokenPair = await createSession(newUser);
     
@@ -56,7 +56,7 @@ module.exports.changeMark = async (req, res, next) => {
   try {
     transaction = await bd.sequelize.transaction(
       { isolationLevel: bd.Sequelize.Transaction.ISOLATION_LEVELS.READ_UNCOMMITTED });
-      const query = ratingQueries.getMarkQuery(offerId, userId, mark, isFirst, transaction);
+      const query = ratingServices.getMarkQuery(offerId, userId, mark, isFirst, transaction);
     await query();
     const offersArray = await bd.Rating.findAll({
       include: [
@@ -73,7 +73,7 @@ module.exports.changeMark = async (req, res, next) => {
     }
     avg = sum / offersArray.length;
 
-    await userQueries.updateUser({ rating: avg }, creatorId, transaction);
+    await userServices.updateUser({ rating: avg }, creatorId, transaction);
     transaction.commit();
     controller.getNotificationController().emitChangeMark(creatorId);
     res.send({ userId: creatorId, rating: avg });
@@ -87,7 +87,7 @@ module.exports.payment = async (req, res, next) => {
   let transaction;
   try {
     transaction = await bd.sequelize.transaction();
-    await bankQueries.updateBankBalance({
+    await bankServices.updateBankBalance({
       balance: bd.sequelize.literal(`
                 CASE
             WHEN "cardNumber"='${ req.body.number.replace(/ /g,
@@ -134,7 +134,7 @@ module.exports.updateUser = async (req, res, next) => {
     if (req.file) {
       req.body.avatar = req.file.filename;
     }
-    const updatedUser = await userQueries.updateUser(req.body,
+    const updatedUser = await userServices.updateUser(req.body,
       req.tokenData.userId);
     res.send(prepareUser(updatedUser));
   } catch (err) {
@@ -146,10 +146,10 @@ module.exports.cashout = async (req, res, next) => {
   let transaction;
   try {
     transaction = await bd.sequelize.transaction();
-    const updatedUser = await userQueries.updateUser(
+    const updatedUser = await userServices.updateUser(
       { balance: bd.sequelize.literal('balance - ' + req.body.sum) },
       req.tokenData.userId, transaction);
-    await bankQueries.updateBankBalance({
+    await bankServices.updateBankBalance({
       balance: bd.sequelize.literal(`CASE 
                 WHEN "cardNumber"='${ req.body.number.replace(/ /g,
     '') }' AND "expiry"='${ req.body.expiry }' AND "cvc"='${ req.body.cvc }'

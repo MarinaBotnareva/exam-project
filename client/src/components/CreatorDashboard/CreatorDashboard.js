@@ -67,6 +67,10 @@ class CreatorDashboard extends React.Component {
       if (this.parseUrlForParams(this.props.location.search) && !this.props.contests.length) this.getContests(this.props.creatorFilter);
     }
 
+    componentWillUnmount() {
+      this.props.clearContestsList();
+    }
+
     getContests = (filter) => {
       this.props.getContests({
         limit: 8,

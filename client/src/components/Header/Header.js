@@ -7,12 +7,30 @@ import { clearUserStore, headerRequest } from '../../actions/actionCreator';
 import moment from "moment";
 
 class Header extends React.Component {
+  constructor() {
+    super();
+    this.state = { tasks: 0 }
+  }
+
+  componentDidMount() {
+    if(localStorage.getItem('tasks'+localStorage.getItem('user'))){
+      this.counterTasks();         
+      this.interval = setInterval(() => {
+         this.counterTasks();         
+       }, 1000);
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
 
     logOut = () => {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("user");
-      localStorage.removeItem("role"); 
+      localStorage.removeItem("role");
+      localStorage.removeItem("bundleList"); 
       this.props.clearUserStore();
       this.props.history.replace('/login');
     };
@@ -22,14 +40,18 @@ class Header extends React.Component {
     };
 
     counterTasks = () => {
-      const tasks = JSON.parse(localStorage.getItem('tasks'+this.props.data.id));
+      const tasks = JSON.parse(localStorage.getItem('tasks'+localStorage.getItem('user')));
       const warnList = [];
       tasks.map((task)=>{
         if(task.warning <= moment(new Date().toLocaleString()).format('YYYY-MM-DD HH:mm')) {
           warnList.push(task);
         }
       })
-      return warnList.length; 
+      this.setState((state)=>({
+        ...state, 
+        tasks: warnList.length,
+        warnList: warnList
+      })); 
     }
     
 
@@ -69,7 +91,12 @@ class Header extends React.Component {
               </ul>
             </div>
             <img src={`${CONSTANTS.STATIC_IMAGES_PATH}email.png`} className={styles.emailIcon} alt="email" />
-            <Link to="/events" style={{ textDecoration: 'none' }}><div><img src={`${CONSTANTS.STATIC_IMAGES_PATH}calendar-svgrepo-com.svg`} className={styles.emailIcon} alt="calendar" /></div></Link>
+            <Link to="/events" style={{ textDecoration: 'none' }}>
+              <div className={styles.tasks}>
+                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}calendar-svgrepo-com.svg`} className={styles.calendarIcon} alt="calendar" />
+                { this.state.tasks !== 0 ? <div className={styles.tasksCounter}>{this.state.tasks}</div> : null }
+              </div>
+            </Link>
           </>
         );
       }

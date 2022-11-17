@@ -24,7 +24,6 @@ class ModeratorDashboard extends React.Component {
   }
   
   setOfferList = () => {
-    console.log(this.props)
     const array = [];
     const { offers } = this.props;
     for (let i = 0; i < offers.length; i++) {
@@ -64,7 +63,7 @@ class ModeratorDashboard extends React.Component {
         <div className={styles.mainContainer}>
           <div className={styles.filterContainer}>
             <div
-              onClick={() => this.props.newFilter(null)}
+              onClick={() => {this.props.newFilter(null); this.props.getOffers({approved: null})}}
               className={classNames({
                 [styles.activeFilter]: null === moderatorFilter,
                 [styles.filter]: null !== moderatorFilter,
@@ -73,7 +72,7 @@ class ModeratorDashboard extends React.Component {
               Need Approvement
             </div>
             <div
-              onClick={() => this.props.newFilter(true)}
+              onClick={() => {this.props.newFilter(true); this.props.getOffers({approved: true})}}
               className={classNames({
                 [styles.activeFilter]: true === moderatorFilter,
                 [styles.filter]: true !== moderatorFilter,
@@ -82,7 +81,7 @@ class ModeratorDashboard extends React.Component {
               Appreved Offers
             </div>
             <div
-              onClick={() => this.props.newFilter(false)}
+              onClick={() => {this.props.newFilter(false); this.props.getOffers({approved: false})}}
               className={classNames({
                 [styles.activeFilter]: false === moderatorFilter,
                 [styles.filter]: false !== moderatorFilter,

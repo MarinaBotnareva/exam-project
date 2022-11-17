@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "./RequestForm.css";
-import styles from './RequestForm.module.sass'
+import styles from './RequestForm.module.sass';
+import CONSTANTS from "../../constants";
 
 const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
@@ -33,13 +34,19 @@ const timeStampArr = [
 
 function RequestForm(props) {
   const [selectDate, setSelectDate] = useState("");
-  const [TimeArray, setTimeArray] = useState(timeStampArr) 
+  const [TimeArray, setTimeArray] = useState(timeStampArr); 
   const [classTime, setClassTime] = useState("hide");  
+  const [selectMini, setSelectMini] = useState(false);
  
  const onChange = (value) => {
     setSelectDate(value);
     setClassTime('card-body');
   };
+
+  const dateSelection = (value) => {
+    setSelectDate(value);
+    setSelectMini(true);
+  }
   
    const selectTime = (e) => {
     let times = []
@@ -111,6 +118,7 @@ function RequestForm(props) {
   ) : (
     <>
     <div>
+    {!selectMini ? null : (<div className='back' onClick={()=> {setSelectMini(false)}}><img src={`${CONSTANTS.STATIC_IMAGES_PATH}left.png`} /></div>)}
       <h5 className={styles.calendarTitle}>Select a Date & Time</h5>
       <div className="container consult">
               <div className="react-calendar">
@@ -135,9 +143,35 @@ function RequestForm(props) {
           </button>
           </div>
         ))}
+    </div>  
     </div>
-    </div>
-          
+    <div className="mini">
+      {!selectMini ? 
+        <div className="react-calendar">
+          <Calendar onClickDay={dateSelection} value={selectDate}  minDate={today} maxDate={lastDayOfMonth} locale/>
+        </div>: 
+        <>
+          <div className='card-body'> 
+          <p>{date}</p>
+      {TimeArray.map((time) => (
+        <div className="buttonsWrapper">
+        <button value = {time.time} onClick={selectTime} type="button" className={time.select ? 'activeTime' : 'time'}>
+          {time.time}
+        </button>
+        <button
+          value={time.time}
+          className={time.select ? 'confirm' : 'hideConfirm'}
+          type="button"
+          onClick={setDate}
+          >
+          Confirm
+        </button>
+        </div>
+        ))}
+        </div>   
+        </>
+        }
+    </div>       
   </div>
     </>
   );

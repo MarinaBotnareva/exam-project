@@ -1,5 +1,5 @@
-const { BankCard } = require('../../models');
-const BankDeclineError = require('../../errors/BankDeclineError');
+const { BankCard } = require('../models');
+const BankDeclineError = require('../errors/BankDeclineError');
 
 module.exports.updateBankBalance = async (data, predicate, transaction) => {
   const [updatedCount, [updatedBank]] = await BankCard.update(data,

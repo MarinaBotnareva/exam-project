@@ -1,4 +1,4 @@
-const userQueries =require('../controllers/queries/userQueries');
+const userServices =require('../services/userServices');
 const { verifyAccessToken, verifyRefreshToken } = require('../services/jwtService');
 const createHttpError = require('http-errors');
 
@@ -9,7 +9,7 @@ module.exports.checkAuth = async (req, res, next) => {
   }
   try {
     const tokenData = verifyAccessToken(accessToken);
-    const foundUser = await userQueries.findUser({ id: tokenData.userId });
+    const foundUser = await userServices.findUser({ id: tokenData.userId });
     res.send({
       firstName: foundUser.firstName,
       lastName: foundUser.lastName,

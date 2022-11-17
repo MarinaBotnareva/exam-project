@@ -1,5 +1,5 @@
-const bd = require('../../models');
-const ServerError = require('../../errors/ServerError');
+const bd = require('../models');
+const ServerError = require('../errors/ServerError');
 
 module.exports.updateContest = async (data, predicate, transaction) => {
   const [updatedCount, [updatedContest]] = await bd.Contest.update(data,

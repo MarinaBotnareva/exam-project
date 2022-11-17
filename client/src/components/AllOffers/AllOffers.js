@@ -67,7 +67,7 @@ const AllOffers = (props) => {
     typeOfTagline, brandStyle, typeOfName, styleName, contestType,
     industry, nameVenture
   } = props.data.Contest;
-  console.log(props)
+  
   return (
     <div className={styles.offerContainer}>
       <div className={styles.dataContainer}>

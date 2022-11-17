@@ -1,15 +1,11 @@
 import React, { useState, useEffect, useCallback} from 'react';
-import { useSelector } from 'react-redux';
 import CountDown from '../../components/CountDown/CountDown';
 import Header from '../../components/Header/Header';
 import moment from "moment";
-import CONSTANTS from "../../constants";
-
-import "./Event.css"
+import styles from "./Event.module.sass"
 
 const ToDoList = (props) => {
   const user = window.localStorage.getItem("user")
-  const userStore = useSelector((state) => state.userStore.data);
   const [todoValue, setTodoValue] = useState('')
   const [date, setDate] = useState("");
   const [warning, setWarning] = useState("");
@@ -72,34 +68,29 @@ const ToDoList = (props) => {
   return (
     <>
     <Header/>
-    <div className='todo'>
-      <h2 className='page'>Add your events</h2>
-      <div>
-      <form className='formEvents' onSubmit={onSubmit} >
-      <div className="input-container">
-        <input id='event' className='input' type='text' value={todoValue} onChange={onInputChange} />
-        <label for="event" className="placeholder">Your event</label>
-      </div>
-      <div className="input-container">
-        <input id='date'className='input' type='datetime-local' value={date} onChange={DateChange}/>
-        <label for="date" className="placeholder">Choose the date & time</label>
+    <div className={styles.todo}>
+      <h2 className={styles.title}>Add your events</h2>
+      <form className={styles.formEvents} onSubmit={onSubmit} >
+        <div className={styles.inputContainer}>
+          <input id='event' className={styles.input} type='text' value={todoValue} onChange={onInputChange} />
+          <label for="event" className={styles.placeholder}>Your event</label>
         </div>
-        <div className="input-container">
-        <input id='warning' className='input' placeholder='days' type='number' min="1" max="28" value={warning} onChange={WarningDate} />
-        <label for="warning" className="placeholder">Warn for</label>
+        <div className={styles.inputContainer}>
+            <input id='date'className={styles.input} type='datetime-local' value={date} onChange={DateChange}/>
+            <label for="date" className={styles.placeholder}>Choose the date & time</label>
         </div>
-        <button className='button1' type='submit'>Add</button>
+        <div className={styles.inputContainer}>
+          <input id='warning' className={styles.input} placeholder='days' type='number' min="1" max="28" value={warning} onChange={WarningDate} />
+          <label for="warning" className={styles.placeholder}>Warn for</label>
+        </div>
+        <button className={styles.button} type='submit'>Add</button>
       </form>
       <ul>{tasksArr.map((task) => {
-        return <li className='tasksItem'
+        return <li className={styles.tasksItem}
           key={task.id}>
-            <CountDown data={task.date} warning={task.warning} text={task.text} starttime={task.starttime} />
-        <button className='button' onClick={() => removeTask(task.id)} >
-          <img className='taskDel' src={`${CONSTANTS.STATIC_IMAGES_PATH}close.svg`}/>
-        </button> 
+            <CountDown data={task.date} warning={task.warning} text={task.text} starttime={task.starttime} removeTask={() => removeTask(task.id)}/>
         </li>
       } )}</ul>
-      </div>
     </div>
     </>
   )

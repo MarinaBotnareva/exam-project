@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import CONSTANTS from "../../constants";
 
 import moment from "moment";
 
-import './CountDown.css'
+import styles from './CountDown.module.sass'
 
-function CountDown({data, text, starttime, warning}) {
+function CountDown({data, text, starttime, warning, removeTask}) {
   const [duration, setDuration] = useState("");
   const [percent, setPercent] = useState('')
   const [barColor, setbarColor] = useState('')
@@ -55,10 +56,6 @@ function CountDown({data, text, starttime, warning}) {
     }
   }, [now]);
 
-  
-    
-  
-
   const barStyle = {
     "width": percent + "%",
     "height" : "100%",
@@ -68,12 +65,14 @@ function CountDown({data, text, starttime, warning}) {
 
   return (
     <>
-    <div className="task">
-    <div className="bar" style={barStyle}></div>  
-    <p className="event">{text}</p>
-    <p className="time"> {days}d : {hours}h : {minutes}m : {seconds}s </p>
-    
+    <div className={styles.task}>
+      <div className={styles.bar} style={barStyle}></div>  
+      <p className={styles.event}>{text}</p>
+      <p className={styles.lefttime}> {days}d : {hours}h : {minutes}m : {seconds}s </p>
     </div>
+    <button className={styles.button} onClick={removeTask} >
+      <img src={`${CONSTANTS.STATIC_IMAGES_PATH}close.svg`}/>
+    </button> 
     </>
   );
 }

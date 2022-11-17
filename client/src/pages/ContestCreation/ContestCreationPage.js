@@ -12,10 +12,11 @@ import Header from '../../components/Header/Header';
 const ContestCreationPage = (props) => {
   const formRef = useRef();
   const contestData = props.contestStore.contests[props.contestType] ? props.contestStore.contests[props.contestType] : { contestType: props.contestType };
+  const bundle = JSON.parse(localStorage.getItem('bundleList'));
 
   const handleSubmit = (values) => {
     props.saveContest({ type: props.contestType, info: values });
-    const route = props.bundleStore.bundle[props.contestType] === 'payment' ? '/payment' : `${props.bundleStore.bundle[props.contestType]}Contest`;
+    const route = bundle[props.contestType] === 'payment' ? '/payment' : `${bundle[props.contestType]}Contest`;
     props[0].history.push(route);
   };
 
@@ -25,7 +26,7 @@ const ContestCreationPage = (props) => {
     }
   };
 
-  !props.bundleStore.bundle && props.history.replace('/startContest');
+  bundle === null && props.history.replace('/startContest');
 
 
   return (

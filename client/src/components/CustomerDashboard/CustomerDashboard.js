@@ -28,7 +28,7 @@ class CustomerDashboard extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
       if (this.props.customerFilter !== prevProps.customerFilter) {
         this.getContests();
-      }
+      } 
     }
 
     goToExtended = (contest_id) => {
@@ -64,7 +64,7 @@ class CustomerDashboard extends React.Component {
         <div className={styles.mainContainer}>
           <div className={styles.filterContainer}>
             <div
-              onClick={() => this.props.newFilter(CONSTANTS.CONTEST_STATUS_ACTIVE)}
+              onClick={() => {this.props.newFilter(CONSTANTS.CONTEST_STATUS_ACTIVE); this.props.getContests({ limit: 8, contestStatus:CONSTANTS.CONTEST_STATUS_ACTIVE})}}
               className={classNames({
                 [styles.activeFilter]: CONSTANTS.CONTEST_STATUS_ACTIVE === customerFilter,
                 [styles.filter]: CONSTANTS.CONTEST_STATUS_ACTIVE !== customerFilter,
@@ -73,7 +73,7 @@ class CustomerDashboard extends React.Component {
               Active Contests
             </div>
             <div
-              onClick={() => this.props.newFilter(CONSTANTS.CONTEST_STATUS_FINISHED)}
+              onClick={() => {this.props.newFilter(CONSTANTS.CONTEST_STATUS_FINISHED); this.props.getContests({ limit: 8, contestStatus: CONSTANTS.CONTEST_STATUS_FINISHED})}}
               className={classNames({
                 [styles.activeFilter]: CONSTANTS.CONTEST_STATUS_FINISHED === customerFilter,
                 [styles.filter]: CONSTANTS.CONTEST_STATUS_FINISHED !== customerFilter,
@@ -82,7 +82,7 @@ class CustomerDashboard extends React.Component {
               Completed contests
             </div>
             <div
-              onClick={() => this.props.newFilter(CONSTANTS.CONTEST_STATUS_PENDING)}
+              onClick={() => {this.props.newFilter(CONSTANTS.CONTEST_STATUS_PENDING); this.props.getContests({ limit: 8, contestStatus: CONSTANTS.CONTEST_STATUS_PENDING})}}
               className={classNames({
                 [styles.activeFilter]: CONSTANTS.CONTEST_STATUS_PENDING === customerFilter,
                 [styles.filter]: CONSTANTS.CONTEST_STATUS_PENDING !== customerFilter,

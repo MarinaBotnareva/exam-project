@@ -1,8 +1,8 @@
-const bd = require('../../models');
-const NotFound = require('../../errors/UserNotFoundError');
-const ServerError = require('../../errors/ServerError');
+const bd = require('../models');
+const NotFound = require('../errors/UserNotFoundError');
+const ServerError = require('../errors/ServerError');
 const bcrypt = require('bcrypt');
-const db = require('../../models');
+const db = require('../models');
 
 module.exports.updateUser = async (data, userId, transaction) => {
   const [updatedCount, [updatedUser]] = await bd.User.update(data,

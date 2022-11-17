@@ -1,7 +1,7 @@
 const db = require('../models');
 const ServerError =require('../errors/ServerError');
-const contestQueries = require('./queries/contestQueries');
-const userQueries = require('./queries/userQueries');
+const contestServices = require('../services/contestServices');
+const userServices = require('../services/userServices');
 const controller = require('../socketInit');
 const UtilFunctions = require('../utils/functions');
 const CONSTANTS = require('../constants');
@@ -105,7 +105,6 @@ module.exports.downloadFile = async (req, res, next) => {
 };
 
 module.exports.updateContest = async (req, res, next) => {
-  console.log(req.file)
   if (req.file) {
     req.body.fileName = req.file.filename;
     req.body.originalFileName = req.file.originalname;
@@ -113,7 +112,7 @@ module.exports.updateContest = async (req, res, next) => {
   const contestId = req.body.contestId;
   delete req.body.contestId;
   try {
-    const updatedContest = await contestQueries.updateContest(req.body, {
+    const updatedContest = await contestServices.updateContest(req.body, {
       id: contestId,
       userId: req.tokenData.userId,
     });
@@ -134,7 +133,7 @@ module.exports.setNewOffer = async (req, res, next) => {
   obj.userId = req.tokenData.userId;
   obj.contestId = req.body.contestId;
   try {
-    const result = await contestQueries.createOffer(obj);
+    const result = await contestServices.createOffer(obj);
     delete result.contestId;
     delete result.userId;
     controller.getNotificationController().emitEntryCreated(
@@ -147,7 +146,7 @@ module.exports.setNewOffer = async (req, res, next) => {
 };
 
 const rejectOffer = async (offerId, creatorId, contestId) => {
-  const rejectedOffer = await contestQueries.updateOffer(
+  const rejectedOffer = await contestServices.updateOffer(
     { status: CONSTANTS.OFFER_STATUS_REJECTED }, { id: offerId });
   controller.getNotificationController().emitChangeOfferStatus(creatorId,
     'Someone of yours offers was rejected', contestId);
@@ -156,7 +155,7 @@ const rejectOffer = async (offerId, creatorId, contestId) => {
 
 const resolveOffer = async (
   contestId, creatorId, orderId, offerId, priority, transaction) => {
-  const finishedContest = await contestQueries.updateContestStatus({
+  const finishedContest = await contestServices.updateContestStatus({
     status: db.sequelize.literal(`   CASE
             WHEN "id"=${ contestId }  AND "orderId"='${ orderId }' THEN '${ CONSTANTS.CONTEST_STATUS_FINISHED }'
             WHEN "orderId"='${ orderId }' AND "priority"=${ priority +
@@ -165,10 +164,10 @@ const resolveOffer = async (
             END
     `),
   }, { orderId }, transaction);
-  await userQueries.updateUser(
+  await userServices.updateUser(
     { balance: db.sequelize.literal('balance + ' + finishedContest.prize) },
     creatorId, transaction);
-  const updatedOffers = await contestQueries.updateOfferStatus({
+  const updatedOffers = await contestServices.updateOfferStatus({
     status: db.sequelize.literal(` CASE
             WHEN "id"=${ offerId } THEN '${ CONSTANTS.OFFER_STATUS_WON }'
             ELSE '${ CONSTANTS.OFFER_STATUS_REJECTED }'
@@ -221,7 +220,7 @@ module.exports.setOfferStatus = async (req, res, next) => {
 };
 
 const approveOffer = async (offerId, email) => {
-  const approvedOffer = await contestQueries.updateOffer(
+  const approvedOffer = await contestServices.updateOffer(
     { approved: true }, { id: offerId });
     const message = {        
       to: email,
@@ -236,7 +235,7 @@ const approveOffer = async (offerId, email) => {
 };
 
 const disapproveOffer = async (offerId, email) => {
-  const disapprovedOffer = await contestQueries.updateOffer(
+  const disapprovedOffer = await contestServices.updateOffer(
     { approved: false }, { id: offerId });
     const message = {        
       to: email,

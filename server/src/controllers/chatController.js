@@ -1,11 +1,11 @@
 const db = require('../models');
 const { Op } = require("sequelize");
-const userQueries = require('./queries/userQueries');
+const userServices = require('../services/userServices');
 const controller = require('../socketInit');
 const _ = require('lodash');
 const { sequelize } = require('../models');
 const { QueryTypes } = require('sequelize');
-const { chatForBlackFavoriteList, conversationForMessage, findCatalog } = require('../services/chatServises');
+const { chatForBlackFavoriteList, conversationForMessage, findCatalog } = require('../services/chatServices');
 
 module.exports.addMessage = async (req, res, next) => {
   const participants = [req.tokenData.userId, req.body.recipient];
@@ -91,7 +91,7 @@ module.exports.getChat = async (req, res, next) => {
             {type: QueryTypes.SELECT}
             );
     
-    const interlocutor = await userQueries.findUser(
+    const interlocutor = await userServices.findUser(
       { id: req.body.interlocutorId });
     res.send({
       messages,

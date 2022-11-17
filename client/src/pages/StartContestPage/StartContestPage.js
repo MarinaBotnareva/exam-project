@@ -22,7 +22,9 @@ const StartContestPage = (props) => {
     for (let i = 0; i < array.length; i++) {
       bundleList[array[i]] = i === array.length - 1 ? 'payment' : array[i + 1];
     }
+    
     props.choseBundle(bundleList);
+    localStorage.setItem('bundleList', JSON.stringify(bundleList));
     props.history.push(`/startContest/${bundleList.first}Contest`);
   };
 

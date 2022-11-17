@@ -3,7 +3,7 @@ const {createJWTBody, prepareUser} = require('../utils/user.utils');
 const {ACCESS_SECRET, REFRESH_SECRET, ACCESS_TOKEN_TIME, REFRESH_TOKEN_TIME, MAX_SESSIONS_COUNT} = require('../constants');
 const db = require('../models');
 const createHttpError = require('http-errors');
-const {findUser} = require('../controllers/queries/userQueries');
+const {findUser} = require('./userServices');
 
 const createAccessToken = (user) => {
   return jwt.sign(createJWTBody(user), ACCESS_SECRET, { 
