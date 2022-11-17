@@ -1,8 +1,10 @@
 import React from 'react';
 import AccordionList from '../../components/AccordionList/AccordionList';
 import Header from '../../components/Header/Header';
-import LaunchingAContest from '../../components/AccordionList/LaunchingAContest.json'
-import BuyingFromMarketplace from '../../components/AccordionList/BuyingFromMarketplace.json'
+import launchingAContest from '../../components/AccordionList/LaunchingAContest'
+import managedContests from '../../components/AccordionList/ManagedContests';
+import buyingFromMarketplace from '../../components/AccordionList/BuyingFromMarketplace';
+import forCreatives from '../../components/AccordionList/ForCreatives';
 import FirstSection from '../../components/FirstSection/FirstSection';
 import SecondSection from '../../components/SecondSection/SecondSection';
 import ThirdSection from '../../components/ThirdSection/ThirdSection';
@@ -13,9 +15,7 @@ import "./HowItWorks.css"
 import styles from "./HowItWorks.module.sass"
 
 const HowItWorks = () => {
-
-  const launchingAContest = LaunchingAContest;
-  const buyingFromMarketplace = BuyingFromMarketplace;
+  
   return (
     <>
     <Header/>
@@ -51,11 +51,11 @@ const HowItWorks = () => {
         </div>
         <div className={styles.spaceBottom} id="managed">
         <div ><h3>Managed Contests</h3>
-        <AccordionList infoList={buyingFromMarketplace}/></div>
+        <AccordionList infoList={managedContests}/></div>
         </div>
         <div className={styles.spaceBottom} id="creatives">
         <div ><h3>For Creatives</h3>
-        <AccordionList infoList={buyingFromMarketplace}/></div>
+        <AccordionList infoList={forCreatives}/></div>
         </div>
       </section> 
       </div>

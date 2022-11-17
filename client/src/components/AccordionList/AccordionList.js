@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styles from './AccordionList.module.sass'
+import styles from './AccordionList.module.sass';
+import ReactMarkdown from 'react-markdown';
 
 function AccordionList (props) {
   const [clicked, setClicked] = useState();
@@ -30,10 +31,10 @@ function AccordionList (props) {
                 </div>
                 {clicked === index ? (
                   <div className={styles.answer}>
-                    {item.answer}
+                    <ReactMarkdown>{item.answer}</ReactMarkdown>
                   </div>
                 ) : <div className={styles.hidden}>
-                {item.answer}
+                <ReactMarkdown>{item.answer}</ReactMarkdown>
               </div>}
               </div>
             );
