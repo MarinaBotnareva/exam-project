@@ -1,16 +1,16 @@
 const nodemailer = require('nodemailer')
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.mail.yahoo.com',
+  host: 'smtp.office365.com',
   port: 587,
   secure: false,
   auth: {
-      user: 'squadhelpn@yahoo.com',
+      user: 'squadhelp123456@outlook.com',
       pass: '123A456b'
   }
   },
     {
-        from: 'Squadhelp no-reply <squadhelpn@yahoo.com>',
+        from: 'Squadhelp no-reply <squadhelp123456@outlook.com>',
     }
 )
 
