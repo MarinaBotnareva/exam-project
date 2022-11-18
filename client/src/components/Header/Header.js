@@ -49,8 +49,7 @@ class Header extends React.Component {
       })
       this.setState((state)=>({
         ...state, 
-        tasks: warnList.length,
-        warnList: warnList
+        tasks: warnList.length
       })); 
     }
     

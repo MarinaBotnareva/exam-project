@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import isEqual from 'lodash/isEqual';
 import LightBox from 'react-image-lightbox';
 import {
   getContestById,
@@ -132,7 +131,6 @@ class ContestPage extends React.Component {
       } = contestByIdStore;
       return (
         <div>
-          {/* <Chat/> */}
           {isShowOnFull && (
           <LightBox
             mainSrc={`${CONSTANTS.publicURL}${imagePath}`}
