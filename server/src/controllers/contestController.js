@@ -226,7 +226,7 @@ const approveOffer = async (offerId, email) => {
       to: email,
       subject: 'Status of your offer was changed',
       text: `
-      Hallo, ...!
+      Hallo!
       Your offer was admitted for the contest.
       `
   }
@@ -241,7 +241,7 @@ const disapproveOffer = async (offerId, email) => {
       to: email,
       subject: 'Status of your offer was changed',
       text: `
-      Hallo, ...!
+      Hallo!
       Your offer was disadmitted.
       `
   }
@@ -265,6 +265,7 @@ module.exports.setOfferApproment = async (req, res, next) => {
       next(err);
     }
   }
+  console.log(req.body)
 }
 
 module.exports.getCustomersContests = (req, res, next) => {
@@ -372,7 +373,12 @@ module.exports.getOffers = async (req, res, next) => {
           }
         }
       ]});
-    res.send(offers);
+      const totalRecords = offers.length;
+      const totalPages = Math.ceil( totalRecords / req.body.limit);
+      const offset = (req.body.currentPage - 1) * req.body.limit;
+      const currentOffers = offers.slice(offset, offset + req.body.limit);
+      console.log(totalPages)
+    res.send({currentOffers, totalRecords, totalPages});
   } catch (err) {
     next(err);
   }
