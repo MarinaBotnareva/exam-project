@@ -36,7 +36,6 @@ class ModeratorDashboard extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.moderatorFilter !== prevProps.moderatorFilter) {
       this.getOffers();
-      console.log(this.props)
     }
     if(this.state.currentPage !== prevState.currentPage){
       this.getOffers();
