@@ -36,6 +36,7 @@ class ModeratorDashboard extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.moderatorFilter !== prevProps.moderatorFilter) {
       this.getOffers();
+      console.log(this.props)
     }
     if(this.state.currentPage !== prevState.currentPage){
       this.getOffers();
@@ -85,7 +86,7 @@ class ModeratorDashboard extends React.Component {
         <div className={styles.filterContainer}>
           <div
             onClick={() => {
-              this.props.newFilter(null); this.props.getOffers({ approved: null });
+              this.props.newFilter(null); this.setState({ currentPage: 1 }); this.props.getOffers({ approved: null, limit: 8, currentPage: this.state.currentPage });
             }}
             className={classNames({
               [styles.activeFilter]: null === moderatorFilter,
@@ -96,7 +97,7 @@ class ModeratorDashboard extends React.Component {
           </div>
           <div
             onClick={() => {
-              this.props.newFilter(true); this.props.getOffers({ approved: true });
+              this.props.newFilter(true); this.setState({ currentPage: 1 }); this.props.getOffers({ approved: true, limit: 8, currentPage: this.state.currentPage });
             }}
             className={classNames({
               [styles.activeFilter]: true === moderatorFilter,
@@ -107,7 +108,7 @@ class ModeratorDashboard extends React.Component {
           </div>
           <div
             onClick={() => {
-              this.props.newFilter(false); this.props.getOffers({ approved: false });
+              this.props.newFilter(false); this.setState({ currentPage: 1 }); this.props.getOffers({ approved: false, limit: 8, currentPage: this.state.currentPage });
             }}
             className={classNames({
               [styles.activeFilter]: false === moderatorFilter,
@@ -133,13 +134,12 @@ class ModeratorDashboard extends React.Component {
               <div className={styles.notFound}>Found nothing</div> :
               <>
                 <div className={styles.offers}>{this.setOfferList()}</div>
-              <Pagination
-                totalRecords={this.props.totalRecords}
-                totalPages = {this.props.totalPages}
-                pageLimit={8}
-                pageNeighbours={1}
-                onPageChanged={this.onPageChanged}
-                />
+                <Pagination
+                  totalRecords={this.props.totalRecords}
+                  totalPages = {this.props.totalPages}
+                  pageLimit={8}
+                  onPageChanged={this.onPageChanged}
+                  />
                 {this.props.isFetching && <div className={styles.spinnerContainer}><Spinner /></div>}
               </>
             )
@@ -155,8 +155,7 @@ const mapStateToProps = (state) => state.offerStore;
 const mapDispatchToProps = (dispatch) => ({
   getOffers: (data) => dispatch(getOfferList(data)),
   setOfferApprovement: (data) => dispatch(setOfferApprovement(data)),
-  clearSetOfferApprovementError: () =>
-    dispatch(clearSetOfferApprovementError()),
+  clearSetOfferApprovementError: () => dispatch(clearSetOfferApprovementError()),
   clearOfferList: () => dispatch(clearOfferList()),
   newFilter: (filter) => dispatch(setNewModeratorFilter(filter)),
 });

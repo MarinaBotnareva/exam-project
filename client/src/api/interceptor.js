@@ -1,7 +1,7 @@
 import axios from 'axios';
 import CONTANTS from '../constants';
 import history from '../browserHistory';
-import { refreshRequest, getUser } from './rest/restController';
+import { refreshRequest } from './rest/restController';
 
 const httpClient = axios.create({
   baseURL: CONTANTS.BASE_URL,

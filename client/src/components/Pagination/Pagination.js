@@ -1,46 +1,23 @@
 import React, { Component } from 'react';
 import styles from './Pagination.module.sass';
 
-const LEFT_PAGE = 'LEFT';
-const RIGHT_PAGE = 'RIGHT';
-
-const range = (from, to, step = 1) => {
-  let i = from;
-  const range = [];
-
-  while (i <= to) {
-    range.push(i);
-    i += step;
-  }
-
-  return range;
-};
-
 class Pagination extends Component {
   constructor(props) {
     super(props);
     const {
       totalRecords = null,
       pageLimit = 8,
-      pageNeighbours = 0,
       totalPages,
     } = props;
 
     this.pageLimit = typeof pageLimit === 'number' ? pageLimit : 8;
     this.totalRecords = typeof totalRecords === 'number' ? totalRecords : 0;
     this.totalPages = typeof totalPages === 'number' ? totalPages : 1;
-
-    this.pageNeighbours =
-      typeof pageNeighbours === 'number'
-        ? Math.max(0, Math.min(pageNeighbours, 2))
-        : 0;
-
     this.state = { currentPage: 1 };
   }
 
   componentDidMount() {
     this.gotoPage(1);
-    console.log(this.props);
   }
 
   gotoPage = (page) => {
@@ -62,12 +39,12 @@ class Pagination extends Component {
 
   handleMoveLeft = (evt) => {
     evt.preventDefault();
-    this.gotoPage(this.state.currentPage - this.pageNeighbours * 2 - 1);
+    this.gotoPage(this.state.currentPage - 2);
   };
 
   handleMoveRight = (evt) => {
     evt.preventDefault();
-    this.gotoPage(this.state.currentPage + this.pageNeighbours * 2 + 1);
+    this.gotoPage(this.state.currentPage + 2);
   };
 
   render() {
