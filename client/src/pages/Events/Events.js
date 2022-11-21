@@ -72,16 +72,16 @@ const ToDoList = (props) => {
       <h2 className={styles.title}>Add your events</h2>
       <form className={styles.formEvents} onSubmit={onSubmit} >
         <div className={styles.inputContainer}>
-          <input id='event' className={styles.input} type='text' value={todoValue} onChange={onInputChange} />
+          <input id='event' className={styles.input} type='text' value={todoValue} onChange={onInputChange} required />
           <label for="event" className={styles.placeholder}>Your event</label>
         </div>
         <div className={styles.inputContainer}>
-            <input id='date'className={styles.input} type='datetime-local' value={date} onChange={DateChange}/>
+            <input id='date'className={styles.input} type='datetime-local' value={date} onChange={DateChange} required/>
             <label for="date" className={styles.placeholder}>Choose the date & time</label>
         </div>
         <div className={styles.inputContainer}>
-          <input id='warning' className={styles.input} placeholder='days' type='number' min="1" max="28" value={warning} onChange={WarningDate} />
-          <label for="warning" className={styles.placeholder}>Warn for</label>
+          <input id='warning' className={styles.input} placeholder='days' type='number' min="1" max="28" value={warning} onChange={WarningDate} required />
+          <label for="warning" className={styles.placeholder}>Notify before the event</label>
         </div>
         <button className={styles.button} type='submit'>Add</button>
       </form>
