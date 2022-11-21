@@ -5,7 +5,6 @@ const initialState = {
   error: null,
   offers: [],
   totalPages: null,
-  totalRecords: null,
   moderatorFilter: null,
   setOfferApprovementError: null,
 };
@@ -26,7 +25,6 @@ export default function (state = initialState, action) {
         isFetching: false,
         offers: [...action.data.currentOffers],
         totalPages: action.data.totalPages,
-        totalRecords: action.data.totalRecords,
       };
     }
 
@@ -36,7 +34,6 @@ export default function (state = initialState, action) {
         error: null,
         offers: [],
         totalPages: null,
-        totalRecords: null,
       };
     }
 
@@ -68,7 +65,6 @@ export default function (state = initialState, action) {
         error: null,
         offers: [...action.data.currentOffers],
         totalPages: action.data.totalPages,
-        totalRecords: action.data.totalRecords,
       };
     }
     

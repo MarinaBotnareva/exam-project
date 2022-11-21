@@ -5,13 +5,9 @@ class Pagination extends Component {
   constructor(props) {
     super(props);
     const {
-      totalRecords = null,
-      pageLimit = 8,
       totalPages,
     } = props;
-
-    this.pageLimit = typeof pageLimit === 'number' ? pageLimit : 8;
-    this.totalRecords = typeof totalRecords === 'number' ? totalRecords : 0;
+   
     this.totalPages = typeof totalPages === 'number' ? totalPages : 1;
     this.state = { currentPage: 1 };
   }
@@ -48,8 +44,6 @@ class Pagination extends Component {
   };
 
   render() {
-    if (!this.totalRecords) return null;
-
     if (this.totalPages === 1) return null;
 
     const { currentPage } = this.state;

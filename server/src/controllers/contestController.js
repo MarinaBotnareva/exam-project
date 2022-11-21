@@ -377,8 +377,7 @@ module.exports.getOffers = async (req, res, next) => {
       const totalPages = Math.ceil( totalRecords / req.body.limit);
       const offset = (req.body.currentPage - 1) * req.body.limit;
       const currentOffers = offers.slice(offset, offset + req.body.limit);
-      console.log(totalPages)
-    res.send({currentOffers, totalRecords, totalPages});
+    res.send({currentOffers, totalPages});
   } catch (err) {
     next(err);
   }

@@ -10,10 +10,10 @@ import {
 import styles from './ModeratorDashboard.module.sass';
 import TryAgain from '../TryAgain/TryAgain';
 import Error from '../Error/Error';
-import AllOffers from '../AllOffers/AllOffers';
 import classNames from 'classnames';
 import Spinner from '../Spinner/Spinner';
-import Pagination from '../Pagination/Pagination';
+import Pagination from '../Pagination/Pagination'
+import AllOffers from '../AllOffers/AllOffers';
 
 class ModeratorDashboard extends React.Component {
   state = {
@@ -79,7 +79,7 @@ class ModeratorDashboard extends React.Component {
   };
 
   render() {
-    const { error, moderatorFilter, setOfferApprovementError } = this.props;
+    const { error, moderatorFilter, setOfferApprovementError, totalPages } = this.props;
     return (
       <div className={styles.mainContainer}>
         <div className={styles.filterContainer}>
@@ -133,12 +133,12 @@ class ModeratorDashboard extends React.Component {
               <div className={styles.notFound}>Found nothing</div> :
               <>
                 <div className={styles.offers}>{this.setOfferList()}</div>
+                {totalPages === null? null :  
                 <Pagination
-                  totalRecords={this.props.totalRecords}
-                  totalPages = {this.props.totalPages}
-                  pageLimit={8}
+                  totalPages = {totalPages}
                   onPageChanged={this.onPageChanged}
-                  />
+                  />}
+                
                 {this.props.isFetching && <div className={styles.spinnerContainer}><Spinner /></div>}
               </>
             )
