@@ -9,7 +9,8 @@ import moment from "moment";
 class Header extends React.Component {
   constructor() {
     super();
-    this.state = { tasks: 0 }
+    this.state = { tasks: 0,
+      visibility: true, }
   }
 
   componentDidMount() {
@@ -50,6 +51,13 @@ class Header extends React.Component {
       this.setState((state)=>({
         ...state, 
         tasks: warnList.length
+      })); 
+    }
+
+    menuVisibility = () => {
+      this.setState((state)=>({
+        ...state, 
+        visibility: !this.state.visibility,
       })); 
     }
     
@@ -124,6 +132,7 @@ class Header extends React.Component {
             <a href="http://www.google.com">Read Announcement</a>
           </div>
           <div className={styles.loginSignnUpHeaders}>
+          <img className={styles.menuBar} src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-bar.svg`} alt="menu-bar" onClick={this.menuVisibility} />
             <div className={styles.numberContainer}>
               <img src={`${CONSTANTS.STATIC_IMAGES_PATH}phone.png`} alt="phone" />
               <span>
@@ -140,7 +149,7 @@ class Header extends React.Component {
           <Link to="/">
               <img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`} className={styles.logo} alt="blue_logo" />
             </Link>
-            <div className={styles.leftNav}>
+            <div className={this.state.visibility === false? styles.leftNav1 : styles.leftNav}>
               <div className={styles.nav}>
                 <ul>
                   <li>

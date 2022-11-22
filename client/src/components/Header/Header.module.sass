@@ -41,94 +41,13 @@
     .leftNav
       display: flex
       @media(max-width: 750px)
-        align-items: center
-        flex-direction: column
+        display: none
 
-      .nav
-        display: flex
-        height: 100%
-
-        ul          
-          margin: 0
-          list-style: none
-          display: flex
-          justify-content: flex-start
-          align-items: center
-          @media(max-width: 920px)
-            padding: 0
-          @media(max-width: 700px)
-            flex-direction: column
-            align-items: flex-start
-
-          &:last-child li
-            ul
-              width: 200px
-
-          li
-            display: flex
-            position: relative
-            align-items: center
-            justify-content: flex-start
-            margin-right: 30px
-            cursor: pointer
-            @media(max-width: 700px)
-              width: 100%
-              padding: 0 15px
-
-            &:hover
-              span
-                color: #f27e51
-
-              ul
-                display: block
-                position: absolute
-                border: 1px solid #eee
-                z-index: 1000
-                top: 100%
-                left: 0 
-                background-color: white
-                @media(max-width: 700px)
-                  top: auto
-                  left: 145px
-
-            ul
-              padding: 0
-              margin: 0
-              width: 160px
-              display: none
-
-              .last
-                width: 100%
-                padding-top: 8px
-                box-sizing: border-box
-                border-top: 1px solid aquamarine
-
-              li
-                box-sizing: border-box
-                width: 100%
-                display: flex
-                justify-content: flex-start
-
-                &:hover
-                  background: #f9fafb
-
-                a
-                  width: 100%
-                  padding: 10px 15px
-                  font-size: 12px
-                  text-decoration: none
-                  color: #333
-                  text-transform: uppercase
-
-                  &:hover
-                    color: #f27e51
-
-            span
-              color: #495d8b
-              font-size: 15px
-              font-weight: 300
-              padding: 20px 0
-              height: 100
+    .leftNav1
+      display: flex
+      @media(max-width: 750px)
+      align-items: center
+      flex-direction: column   
 
   .loginSignnUpHeaders
     margin-top: 30px
@@ -137,6 +56,13 @@
     align-items: center
     justify-content: space-around
     border: 1px solid #ebebeb
+    @media(max-width: 460px)
+      flex-wrap: wrap-reverse 
+
+    .menuBar
+      display: none
+      @media(max-width: 750px)
+        display: block
 
     .userButtonsContainer
       margin-left: 100px
@@ -293,4 +219,90 @@
       letter-spacing: 0.3px
       color: lightyellow
       text-decoration: underline
+
+.nav
+  display: flex
+  height: 100%
+
+  ul          
+    margin: 0
+    list-style: none
+    display: flex
+    justify-content: flex-start
+    align-items: center
+    @media(max-width: 920px)
+      padding: 0
+    @media(max-width: 700px)
+      flex-direction: column
+      align-items: flex-start
+
+    &:last-child li
+      ul
+        width: 200px
+
+    li
+      display: flex
+      position: relative
+      align-items: center
+      justify-content: flex-start
+      margin-right: 30px
+      cursor: pointer
+      @media(max-width: 700px)
+        width: 100%
+        padding: 0 15px
+
+      &:hover
+        span
+          color: #f27e51
+
+        ul
+          display: block
+          position: absolute
+          border: 1px solid #eee
+          z-index: 1000
+          top: 100%
+          left: 0 
+          background-color: white
+          @media(max-width: 700px)
+            top: auto
+            left: 145px
+
+      ul
+        padding: 0
+        margin: 0
+        width: 160px
+        display: none
+
+        .last
+          width: 100%
+          padding-top: 8px
+          box-sizing: border-box
+          border-top: 1px solid aquamarine
+
+        li
+          box-sizing: border-box
+          width: 100%
+          display: flex
+          justify-content: flex-start
+
+          &:hover
+            background: #f9fafb
+
+          a
+            width: 100%
+            padding: 10px 15px
+            font-size: 12px
+            text-decoration: none
+            color: #333
+            text-transform: uppercase
+
+            &:hover
+              color: #f27e51
+
+      span
+        color: #495d8b
+        font-size: 15px
+        font-weight: 300
+        padding: 20px 0
+        height: 100      
 
