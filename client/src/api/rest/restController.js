@@ -49,3 +49,7 @@ export const createCatalog = (data) => httpClient.post('chat/createCatalog', dat
 export const deleteCatalog = (data) => httpClient.post('chat/deleteCatalog', data);
 export const removeChatFromCatalog = (data) => httpClient.post('chat/removeChatFromCatalog', data);
 export const changeCatalogName = (data) => httpClient.patch('chat/updateNameCatalog', data);
+
+export const сountRoles = () => httpClient.get('tasks/countRoles');
+export const сashback = () => httpClient.patch('tasks/cashback');
+export const addToBalance = () => httpClient.patch('tasks/addToBalance');

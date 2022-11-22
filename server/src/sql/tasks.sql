@@ -4,7 +4,7 @@ GROUP BY role
 
 
 UPDATE "Users"
-SET balance = prize 
+SET balance = balance + prize 
 FROM (
   SELECT "userId", sum(prize)*0.1 as prize
 FROM(
