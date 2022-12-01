@@ -23,6 +23,12 @@ class Chat extends React.Component {
     chatController.subscribeChat(this.props.userStore.data.id);
     this.props.getPreviewChat();
   }
+  
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.chatStore.messages !== prevProps.chatStore.messages) {
+      this.props.getPreviewChat();
+    }
+  }
 
   componentWillUnmount() {
     chatController.unsubscribeChat(this.props.userStore.data.id);
