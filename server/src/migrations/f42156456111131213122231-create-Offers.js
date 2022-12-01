@@ -42,6 +42,10 @@ module.exports = {
         allowNull: true,
         defaultValue: OFFER_STATUS_PENDING,
       },
+      approved: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+      }
     });
   },
   down: (queryInterface, Sequelize) => {

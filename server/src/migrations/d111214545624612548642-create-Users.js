@@ -35,24 +35,24 @@ module.exports = {
         allowNull: false,
         defaultValue: 'anon.png',
       },
-      role: {
-        type: Sequelize.ENUM(CUSTOMER, CREATOR),
-        allowNull: false,
-      },
       balance: {
         type: Sequelize.DECIMAL,
         allowNull: false,
         defaultValue: 0,
-      },
-      accessToken: {
-        type: Sequelize.TEXT,
-        allowNull: true,
       },
       rating: {
         type: Sequelize.FLOAT,
         allowNull: false,
         defaultValue: 0,
       },
+      role: {
+        type: Sequelize.STRING,
+        references: {
+          model: 'Roles',
+          key: 'name',
+      },
+      allowNull: false
+      }
     })
       .then(() => queryInterface.addConstraint('Users',  {
         type: 'check',
