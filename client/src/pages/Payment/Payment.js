@@ -8,10 +8,12 @@ import CONSTANTS from '../../constants';
 import Error from '../../components/Error/Error';
 
 const Payment = (props) => {
+  const { contests } = props.contestStore;
+  const contestArray = [];
+  Object.keys(contests).forEach((key) => contestArray.push(contests[key]));
+  let totalPrice = 100 * contestArray.length;
+  
   const pay = (values) => {
-    const { contests } = props.contestStore;
-    const contestArray = [];
-    Object.keys(contests).forEach((key) => contestArray.push(contests[key]));
     const { number, expiry, cvc } = values;
     const data = new FormData();
     for (let i = 0; i < contestArray.length; i++) {
@@ -21,8 +23,9 @@ const Payment = (props) => {
     data.append('number', number);
     data.append('expiry', expiry);
     data.append('cvc', cvc);
+    data.append('price', totalPrice);
     data.append('contests', JSON.stringify(contestArray));
-    data.append('price', '100');
+    
     props.pay({
       data: {
         formData: data,
@@ -35,7 +38,7 @@ const Payment = (props) => {
     props.history.goBack();
   };
 
-  const { contests } = props.contestStore;
+ 
   const { error } = props.payment;
   const { clearPaymentStore } = props;
   if (isEmpty(contests)) {
@@ -60,7 +63,7 @@ const Payment = (props) => {
           </div>
           <div className={styles.resultPriceContainer}>
             <span>Total:</span>
-            <span>$100.00 USD</span>
+            <span>${totalPrice}.00 USD</span>
           </div>
           <a target='_blank' rel="noreferrer" href="http://www.google.com">Have a promo code?</a>
         </div>
