@@ -11,7 +11,6 @@ import ThirdSection from '../../components/ThirdSection/ThirdSection';
 import ReadyToStart from '../../components/ReadyToStart/ReadyToStart';
 import Footer from '../../components/Footer/Footer';
 import Questions from '../../components/Questions/Questions';
-import "./HowItWorks.css"
 import styles from "./HowItWorks.module.sass"
 
 const HowItWorks = () => {
