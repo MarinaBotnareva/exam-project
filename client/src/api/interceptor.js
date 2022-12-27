@@ -8,7 +8,7 @@ const httpClient = axios.create({
 });
 
 httpClient.interceptors.request.use((config) => {
-  const access = window.localStorage.getItem(CONTANTS.ACCESS_TOKEN);
+  const access = localStorage.getItem(CONTANTS.ACCESS_TOKEN);
   if (access) {
     config.headers['Authorization'] = `Bearer ${access}`;
   }
@@ -25,7 +25,7 @@ httpClient.interceptors.response.use((response) => {
 
   //access token expired
   if (err.response.status === 401 && history.location.pathname !== '/login' && history.location.pathname !== '/registration' && history.location.pathname !== '/') {
-    const refresh = window.localStorage.getItem(CONTANTS.REFRESH_TOKEN);
+    const refresh = localStorage.getItem(CONTANTS.REFRESH_TOKEN);
     
     if(!refresh) {
       return history.replace('/login');
@@ -45,8 +45,8 @@ httpClient.interceptors.response.use((response) => {
   //refresh token expired
   if (err.response.status === 419 && history.location.pathname !== '/login' && history.location.pathname !== '/registration' && history.location.pathname !== '/') {
     history.replace('/login');
-    window.localStorage.removeItem(CONTANTS.ACCESS_TOKEN);
-    window.localStorage.removeItem(CONTANTS.REFRESH_TOKEN);
+    localStorage.removeItem(CONTANTS.ACCESS_TOKEN);
+    localStorage.removeItem(CONTANTS.REFRESH_TOKEN);
     
   }
   return Promise.reject(err);
@@ -54,21 +54,21 @@ httpClient.interceptors.response.use((response) => {
 
 const saveTokenPair = (tokenPair) => {
   if (tokenPair?.access) {
-    window.localStorage.setItem(CONTANTS.ACCESS_TOKEN, tokenPair.access);
+    localStorage.setItem(CONTANTS.ACCESS_TOKEN, tokenPair.access);
   }
 
   if (tokenPair?.refresh) {
-    window.localStorage.setItem(CONTANTS.REFRESH_TOKEN, tokenPair.refresh);
+    localStorage.setItem(CONTANTS.REFRESH_TOKEN, tokenPair.refresh);
   }
 }; 
 
 const saveUserData = (user) => {
   if (user?.id) {
-    window.localStorage.setItem("user", user.id);
+    localStorage.setItem("user", user.id);
   }
 
   if (user?.role) {
-    window.localStorage.setItem("role", user.role);
+    localStorage.setItem("role", user.role);
   }
 }; 
 

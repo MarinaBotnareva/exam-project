@@ -24,7 +24,7 @@ function errorsLogger(err, req, res, next) {
     stackTrace: err.stack
   };
 
-  if (file.length == 0) {
+  if (file.length === 0) {
     fs.writeFileSync('./LOG/errors.json', JSON.stringify([error], null, 2));
   }else {
     const json = JSON.parse(file.toString());

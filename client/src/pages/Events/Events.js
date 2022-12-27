@@ -5,7 +5,7 @@ import moment from "moment";
 import styles from "./Event.module.sass"
 
 const ToDoList = (props) => {
-  const user = window.localStorage.getItem("user")
+  const user = localStorage.getItem("user")
   const [todoValue, setTodoValue] = useState('')
   const [date, setDate] = useState("");
   const [warning, setWarning] = useState("");

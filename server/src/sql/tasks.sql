@@ -22,6 +22,5 @@ SET balance = balance + 10
 WHERE id in (
 SELECT id
 FROM "Users"
-WHERE rating > 0
-AND role = 'creator'
+WHERE role = 'creator'
 ORDER BY rating DESC LIMIT 3)

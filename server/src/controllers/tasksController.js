@@ -55,7 +55,6 @@ module.exports.addToBalance = async (req, res, next) => {
       {balance: literal('balance + 10')},
      {
      where: {
-      rating: {[Op.gt]: 0},
       role: CONSTANTS.CREATOR
      },
      limit: 3,
